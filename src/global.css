@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-5xl font-bold font-mono;
+  }
+
+  h2 {
+    @apply text-5xl font-mono;
+  }
+
+  .menu-item div {
+    @apply hover:bg-slate-700 cursor-pointer px-5 py-5 text-3xl;
+  }
+
+  .canvas div {
+    @apply absolute w-3/5 h-full top-0 duration-200;
+  }
+}
