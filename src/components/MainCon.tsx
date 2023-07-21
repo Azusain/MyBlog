@@ -13,7 +13,7 @@ interface MainConInterface {
 const MainCon: React.FC<MainConInterface> = (props) => {
     return (
         <div className={`flex w-full h-[${props.height}] ${props.options} justify-center`}>
-            <div className={`w-[${props.width}] h-full bg-orange-400 ${props.inner_layout}` }>
+            <div className={`w-[${props.width}] h-full ${props.inner_layout}` }>
                 {props.children}
             </div>
         </div>

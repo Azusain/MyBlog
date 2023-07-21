@@ -13,8 +13,8 @@ const Display: React.FC = () => {
     // hardcode for animations :XD
     // 15% gap betwwen each img if squeezed
     const init_pos  = ["0%", "20%", "40%", "60%", "80%"]
-    const lim_left  = ["0", "15%", "30%", "45%", "60%"]
-    const lim_right = ["0", "40%", "55%", "70%", "85%"]
+    const lim_left  = ["0", "10%", "20%", "30%", "40%"]
+    const lim_right = ["0", "55%", "65%", "75%", "85%"]
     const [positions, setPositios] = useState(init_pos)
     const images = [img1, img2, img3, img4, img5]
      
@@ -37,10 +37,10 @@ const Display: React.FC = () => {
     }
 
     return (
-        <div className="flex w-full h-[40rem] bg-sky-200 justify-center">
-            <div className="flex flex-col w-[46%] h-full bg-slate-500">
+        <div className="flex w-full h-[40rem]  justify-center">
+            <div className="flex flex-col w-[46%] h-full">
                 {/* Animation Field */}
-                <div className="canvas w-full h-2/3 bg-black relative overflow-hidden">
+                <div className="canvas w-full h-2/3  relative overflow-hidden">
                     {positions.map((x, index) => {
                         return (
                         <div
@@ -73,17 +73,17 @@ const Display: React.FC = () => {
                     })}
                 </div> {/* Canvas ends */}
                 {/* Annotations */}
-                <div className="w-full h-1/3 bg-sky-950 flex flex-col">
-                    <div className="basis-1/6 bg-orange-300 w-full"></div>
-                    <div className="basis-2/3 bg-orange-100 w-full flex flex-row">
+                <div className="w-full h-1/3  flex flex-col">
+                    <div className="basis-1/6  w-full"></div>
+                    <div className="basis-2/3  w-full flex flex-row">
                         <div className="basis-1/4  h-full py-10 pl-4"><h2>MOONQUAKE</h2></div>
-                        <div className="w-px h-3/4  bg-gray-300 mt-6"></div>
+                        <div className="w-px h-3/4 mt-6 bg-black"></div>
                         <div className="basis-3/4  h-full py-11 pl-8">
                             Coding, Art Design and Audio Engneering. <br></br>
                             Real joy and knowledge here~. Contact us whenever you want
                         </div>
                     </div>
-                    <div className="basis-1/6 bg-orange-500 w-full"></div>
+                    <div className="basis-1/6  w-full"></div>
                 </div>
             </div>
         </div>
