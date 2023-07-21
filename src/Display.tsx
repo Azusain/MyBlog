@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import './output.css'
 // images
-/* code for importing images should be simplified here!!! */
+/* codes for importing images should be simplified here!!! */
 import img1 from "./img/slide-1.jpg"
 import img2 from "./img/slide-2.jpg"
 import img3 from "./img/slide-3.jpg"
 import img4 from "./img/slide-4.jpg"
 import img5 from "./img/slide-5.jpg"
+
 
 const Display: React.FC = () => {
     // hardcode for animations :XD
@@ -21,7 +22,7 @@ const Display: React.FC = () => {
         const elem = event.currentTarget as HTMLElement
         elem.style.filter = "brightness(100%)"
         let curIdx = parseInt(elem.className)
-        const new_positions = init_pos
+        const new_positions = [...init_pos]
         for (let i = 0; i < 5; i++) {
             new_positions[i] = (i <= curIdx) ? 
                 lim_left[i] :lim_right[i]
@@ -43,6 +44,7 @@ const Display: React.FC = () => {
                     {positions.map((x, index) => {
                         return (
                         <div
+                            key={index}
                             style={{
                                 top: "10%",
                                 left: x,
@@ -69,7 +71,6 @@ const Display: React.FC = () => {
                         </div>
                         )
                     })}
-
                 </div> {/* Canvas ends */}
                 {/* Annotations */}
                 <div className="w-full h-1/3 bg-sky-950 flex flex-col">
@@ -84,10 +85,9 @@ const Display: React.FC = () => {
                     </div>
                     <div className="basis-1/6 bg-orange-500 w-full"></div>
                 </div>
-            </div> {/* */}
-        </div> // Component ends
+            </div>
+        </div>
     )
-    
 }
 
 export default Display;
