@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
-import './output.css'
+
 // images
 /* codes for importing images should be simplified here!!! */
-import img1 from "./img/slide-1.jpg"
-import img2 from "./img/slide-2.jpg"
-import img3 from "./img/slide-3.jpg"
-import img4 from "./img/slide-4.jpg"
-import img5 from "./img/slide-5.jpg"
+import img1 from "../img/slide-1.jpg"
+import img2 from "../img/slide-2.jpg"
+import img3 from "../img/slide-3.jpg"
+import img4 from "../img/slide-4.jpg"
+import img5 from "../img/slide-5.jpg"
 
 
 const Display: React.FC = () => {

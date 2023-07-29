@@ -18,7 +18,7 @@ const ImageWithDetails: React.FC = () => {
             <img alt='' src={img0}></img>
             <PassageStatusLine></PassageStatusLine>
             <h3>descriptions...</h3>
-            <GuraButton/>
+            <GuraButton text='Read More'/>
         </div>
     )
 }

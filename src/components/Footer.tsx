@@ -1,4 +1,4 @@
-import MainCon from "./components/MainCon";
+import MainCon from "./MainCon";
 
 const Footer: React.FC = () => {
     return (

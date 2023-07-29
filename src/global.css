@@ -11,8 +11,16 @@
     @apply text-5xl font-mono;
   }
 
+  h3 {
+    @apply text-4xl font-mono;
+  }
+
   .menu-item div {
     @apply px-5 py-5 text-3xl;
+  }
+
+  .menu-item div:hover {
+    @apply cursor-pointer bg-slate-700 duration-200;
   }
 
   .canvas div {

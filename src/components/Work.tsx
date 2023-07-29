@@ -1,15 +1,15 @@
 import React from 'react'
-import MainCon from './components/MainCon'
-import './output.css'
+import MainCon from './MainCon'
+import '../output.css'
 
-import img1 from "./img/work/9.jpg"
-import img2 from "./img/work/10.jpg"
-import img3 from "./img/work/11.jpg"
-import img4 from "./img/work/12.jpg"
-import img5 from "./img/work/13.jpg"
-import img6 from "./img/work/14.jpg"
-import img7 from "./img/work/15.jpg"
-import img8 from "./img/work/16.jpg"
+import img1 from "../img/work/9.jpg"
+import img2 from "../img/work/10.jpg"
+import img3 from "../img/work/11.jpg"
+import img4 from "../img/work/12.jpg"
+import img5 from "../img/work/13.jpg"
+import img6 from "../img/work/14.jpg"
+import img7 from "../img/work/15.jpg"
+import img8 from "../img/work/16.jpg"
 
 
 

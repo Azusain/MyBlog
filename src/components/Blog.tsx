@@ -1,6 +1,5 @@
-import ImageWithDetails from "./components/ImageWithDetails";
-import MainCon from "./components/MainCon";
-import './output.css'
+import ImageWithDetails from "./ImageWithDetails";
+import MainCon from "./MainCon";
 
 // Huge bug here!
 const Blog: React.FC = () => {

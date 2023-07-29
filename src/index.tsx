@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
+// Official React-Router APIs has been updated
+// deprecented APIs are listed in: https://reactrouter.com/en/main/routers/picking-a-router
+import {
+    createBrowserRouter, 
+    RouterProvider
+} from 'react-router-dom';
 
 
 // customized components
-import Header from './Header';
-import Display from './Display';
-import Work from './Work';
-import Blog from './Blog';
-import Footer from './Footer';
+import Header from './components/Header';
+import Display from './components/Display';
+import Work from './components/Work';
+import Blog from './components/Blog';
+import Footer from './components/Footer';
 
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+// Pages
+import BlogsPage from './BlogsPage';
 
 
 const HomePage: React.FC = () => {
@@ -28,15 +31,22 @@ const HomePage: React.FC = () => {
     )
 }
 
+// Global router
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <HomePage/>,
+    },
+    {
+        path: "/blogs",
+        element: <BlogsPage/>,
+    }
+]);
 
 
-
-
-
-
-root.render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-
+    <RouterProvider router={router}></RouterProvider>
   </React.StrictMode>
 );
 
