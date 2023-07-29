@@ -9,7 +9,8 @@ interface MainConInterface {
     options?: string;
 }
 
-
+// width: the width of the main content inside
+// inner_layout: similar to the variable above
 const MainCon: React.FC<MainConInterface> = (props) => {
     return (
         <div className={`flex w-full h-[${props.height}] ${props.options} justify-center`}>

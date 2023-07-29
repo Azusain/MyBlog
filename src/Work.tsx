@@ -20,10 +20,11 @@ const Work: React.FC = () => {
 
     return (
         <>
-            <MainCon width='46%' height='38rem' inner_layout='flex flex-col'>
-                <h2 className="p-4">Our Work</h2>
-                
-            </MainCon>
+            <div className="mb-8">
+                <MainCon width='46%' height='38rem' inner_layout='flex flex-col'>
+                    <h2>Our Work</h2>
+                </MainCon>
+            </div>
             <MainCon width='46%' height='38rem' inner_layout='grid grid-cols-4 gap-4 place-items-center'>
                 {images.map((img, idx) => {
                     return (

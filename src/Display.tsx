@@ -11,7 +11,7 @@ import img5 from "./img/slide-5.jpg"
 
 const Display: React.FC = () => {
     // hardcode for animations :XD
-    // 15% gap betwwen each img if squeezed
+    // 10% gap betwwen each img if squeezed
     const init_pos  = ["0%", "20%", "40%", "60%", "80%"]
     const lim_left  = ["0", "10%", "20%", "30%", "40%"]
     const lim_right = ["0", "55%", "65%", "75%", "85%"]
