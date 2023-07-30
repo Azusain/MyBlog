@@ -25,7 +25,7 @@ const Display: React.FC = () => {
         const new_positions = [...init_pos]
         for (let i = 0; i < 5; i++) {
             new_positions[i] = (i <= curIdx) ? 
-                lim_left[i] :lim_right[i]
+                lim_left[i] : lim_right[i]
         }       
         setPositios(new_positions)
     }
@@ -37,7 +37,7 @@ const Display: React.FC = () => {
     }
 
     return (
-        <div className="flex w-full h-[40rem]  justify-center">
+        <div className="flex w-full h-[40rem]  justify-center bg-main">
             <div className="flex flex-col w-[46%] h-full">
                 {/* Animation Field */}
                 <div className="canvas w-full h-2/3  relative overflow-hidden">

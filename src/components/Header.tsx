@@ -32,7 +32,6 @@ const Header: React.FC = () => {
                             <div 
                                 key={idx}
                                 onClick={() => {navi(menu_item.route)}}
-                                
                             >{menu_item.keyword}</div>
                         )
                     })}

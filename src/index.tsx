@@ -17,7 +17,7 @@ import Footer from './components/Footer';
 
 // Pages
 import BlogsPage from './BlogsPage';
-
+import ContactPage from './ContactPage';
 
 const HomePage: React.FC = () => {
     return (
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
     {
         path: "/blogs",
         element: <BlogsPage/>,
+    },
+    {
+        path: "/contact",
+        element: <ContactPage/>,
     }
 ]);
 
