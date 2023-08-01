@@ -19,20 +19,20 @@ const Work: React.FC = () => {
 
 
     return (
-        <>
-            <div className="mb-8">
+        <div className='my-8'>
+            <div className="my-8">
                 <MainCon width='46%' height='38rem' inner_layout='flex flex-col'>
-                    <h2>Our Work</h2>
+                    <h2>Mixng & Composing</h2>
                 </MainCon>
             </div>
             <MainCon width='46%' height='38rem' inner_layout='grid grid-cols-4 gap-4 place-items-center'>
                 {images.map((img, idx) => {
                     return (
-                        <img key={idx} src={img} alt={idx.toString()}></img>
+                        <img key={idx} src={img} alt={idx.toString()} className='shadow-lg'></img>
                     )
                 })}
             </MainCon>
-        </>
+        </div>
     )
 }
 

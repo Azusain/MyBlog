@@ -24,15 +24,15 @@ const Header: React.FC = () => {
 
     return (
         <>
-            <div className="w-full h-20 grid grid-cols-4 bg-gura_main pl-2">
+            <div className="w-full h-20 grid grid-cols-4 bg-gura_main pl-2 shadow-lg">
                 <div className="col-start-2 py-3"><h1>@Azusaing</h1></div> 
-                <div className="menu-item col-start-3 col-span-2 flex flex-row gap-3 px-2">
+                <div className="menu-item col-start-3 col-span-2 flex flex-row gap-3 p-2">
                     {menu_items.map( (menu_item: MenuItem, idx: number) => {
                         return (
-                            <div 
+                            <div onClick={() => {navi(menu_item.route)}}>
+                            <h5 
                                 key={idx}
-                                onClick={() => {navi(menu_item.route)}}
-                            >{menu_item.keyword}</div>
+                            >{menu_item.keyword}</h5></div>
                         )
                     })}
                 </div>

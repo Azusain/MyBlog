@@ -34,6 +34,7 @@ const ContactPage: React.FC = () => {
                 </div>
  
             </MainCon>
+            <Footer/>
         </>  
     
     )

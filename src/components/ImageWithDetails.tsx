@@ -20,9 +20,9 @@ const ImageWithDetails: React.FC = () => {
     return (
         <div>
             <h3>Design</h3>
-            <img alt='' src={img0}></img>
+            <img alt='' src={img0} className='shadow-lg'></img>
             <PassageStatusLine></PassageStatusLine>
-            <h4>descriptions...</h4>
+            <h6>descriptions...</h6>
             <GuraButton text='Read More'/>
         </div>
     )
@@ -32,19 +32,24 @@ const ImageWithDetails: React.FC = () => {
 const BlogItem: React.FC<BlogItemInterface> = (props) => {
     return (
         <div>
-            <div className='flex flex-col gap-2'>
-                <h3>Linear Algerbra Startup</h3>
-                <PassageStatusLine></PassageStatusLine>
+            <div className='flex flex-col gap-2 p-2'>
+                <h3><u>Linear Algerbra Startup</u></h3>
+
+                <PassageStatusLine/>
+                
                 <img 
                     alt='' 
                     src={img0} 
-                    className={'p-2 ' + (props.isNews? '' : 'hidden')}
+                    className={props.isNews? '' : 'hidden'}
                 >
                 </img>
-                <h4>Linear algebra is central to almost all areas of mathematics. For instance, linear algebra is fundamental in modern presentations of geometry, including for defining basic objects such as lines, planes and rotations</h4>
+                <h6>Linear algebra is central to almost all areas of mathematics. For instance, linear algebra 
+                    is fundamental in modern presentations of geometry, including for defining basic objects such as 
+                    lines, planes and rotations</h6>
+                <div className={props.isNews? '' : 'hidden'}>
+                    <GuraButton text='Read More'/>    
+                </div>
             </div>
-            
-            <GuraButton text='Read More'/>
         </div>
     )
 }
@@ -53,11 +58,11 @@ const BlogItem: React.FC<BlogItemInterface> = (props) => {
 const PassageStatusLine: React.FC<PassageStatusLineInterface> = (props) => {
     return (
         <div className="flex flex-row w-full justify-between">
-            <div className="divide-x flex flex-row gap-2">
+            <div className="flex flex-row gap-2">
                 <div>2020-1-21</div>
-                <div>Admin</div>
+                <div className='text-gura_main'>Admin</div>
             </div>
-            <div>7 Clicks</div>
+
         </div>
     )
 }

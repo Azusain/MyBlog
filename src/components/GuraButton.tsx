@@ -8,7 +8,7 @@ interface GuraButtonInterface{
 const GuraButton: React.FC<GuraButtonInterface> = (porps) => {
 
     return(
-        <button className="bg-gura_main p-2 text-white hover:bg-sky-800 duration-200 my-2">
+        <button className="bg-gura_main p-2 text-white hover:bg-sky-800 duration-200 my-2 shadow-lg">
             {porps.text}
         </button>
     )

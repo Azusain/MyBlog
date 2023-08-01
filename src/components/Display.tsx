@@ -37,7 +37,7 @@ const Display: React.FC = () => {
     }
 
     return (
-        <div className="flex w-full h-[40rem]  justify-center bg-main">
+        <div className="flex w-full h-[40rem]  justify-center bg-slate-800">
             <div className="flex flex-col w-[46%] h-full">
                 {/* Animation Field */}
                 <div className="canvas w-full h-2/3  relative overflow-hidden">
@@ -76,11 +76,11 @@ const Display: React.FC = () => {
                 <div className="w-full h-1/3  flex flex-col">
                     <div className="basis-1/6  w-full"></div>
                     <div className="basis-2/3  w-full flex flex-row">
-                        <div className="basis-1/4  h-full py-10 pl-4"><h2>MOONQUAKE</h2></div>
+                        <div className="basis-1/4  h-full py-10 mt-3"><h2>MoonQuake!</h2></div>
                         <div className="w-px h-3/4 mt-6 bg-black"></div>
                         <div className="basis-3/4  h-full py-11 pl-8">
-                            Coding, Art Design and Audio Engneering. <br></br>
-                            Real joy and knowledge here~. Contact us whenever you want
+                            <h6>Coding, Art Design and Audio Engneering. <br></br>
+                            Real joy and knowledge here~. Contact us whenever you want</h6>
                         </div>
                     </div>
                     <div className="basis-1/6  w-full"></div>

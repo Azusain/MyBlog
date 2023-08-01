@@ -24,8 +24,8 @@ const HomePage: React.FC = () => {
         <>
         <Header />
         <Display></Display>
-        <Work></Work>
         <Blog></Blog>
+        <Work></Work>
         <Footer></Footer>
         </>
     )
