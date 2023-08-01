@@ -23,6 +23,7 @@
   h4 {
     @apply text-2xl;
     font-family: "Open Sans", sans-serif;
+    user-select: none;
     /* 'Open Sans', sans-serif */
   }
 
@@ -36,6 +37,11 @@
   /* for descriptions */
   h6 {
     @apply text-gray-400;
+    font-size: 14px;
+    line-height: 1.5rem;
+  }
+
+  .h6_black {
     font-size: 14px;
     line-height: 1.5rem;
   }

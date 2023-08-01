@@ -54,6 +54,40 @@ const BlogItem: React.FC<BlogItemInterface> = (props) => {
     )
 }
 
+const BlogItemBeta: React.FC<BlogItemInterface> = (props) => {
+    return (
+        <div>
+            <div className='flex flex-row gap-2'>
+                
+                <div className='basis-2/5 pt-[1.15rem]'>
+                    <img 
+                        alt='' 
+                        src={img0} 
+                        className={props.isNews? '' : 'hidden' + ' shadow-lg'}
+                    >
+                    </img>    
+                </div>
+                    
+                     
+
+
+                <div className='basis-3/5 flex flex-col gap-2 p-2'>
+                    <h3><u>Linear Algerbra Startup</u></h3>
+
+                    <PassageStatusLine/>
+                    
+                    <h6>Linear algebra is central to almost all areas of mathematics. For instance, linear algebra 
+                        is fundamental in modern presentations of geometry, including for defining basic objects such as 
+                        lines, planes and rotations</h6>
+                </div>
+
+            </div>
+        </div>
+    )
+}
+
+
+
 
 const PassageStatusLine: React.FC<PassageStatusLineInterface> = (props) => {
     return (
@@ -71,4 +105,4 @@ const PassageStatusLine: React.FC<PassageStatusLineInterface> = (props) => {
 
 
 export default ImageWithDetails;
-export {PassageStatusLine, BlogItem};
+export {PassageStatusLine, BlogItem, BlogItemBeta};

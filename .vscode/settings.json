@@ -13,7 +13,7 @@
   "git.openRepositoryInParentFolders": "never",
   "C_Cpp.default.cppStandard": "gnu++20",
   "terminal.integrated.fontFamily": "Cascadia Code",
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0,
   "workbench.colorTheme": "Monokai Pro",
   "editor.fontFamily": "Cascadia Code",
   "editor.tabSize": 4,
