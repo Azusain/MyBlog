@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/Backend.dir/main.cc.o CMakeFiles/Backend.dir/Logger.cc.o -o Backend  -lfmt 
