@@ -63,7 +63,6 @@ void Logger::log(std::vector<std::string>&& field_vals, std::vector<Coloraiton>&
   }
   // align the text
   for(int i = 0; i < this -> max_widths.size(); ++i) {
-
     std::string fmt_field_val(this -> str_align(field_vals[i], this -> max_widths[i]));
     auto it = this -> clrs.find(i);
     if(it != this -> clrs.end()){

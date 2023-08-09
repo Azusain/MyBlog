@@ -1,3 +1,6 @@
+#ifndef __LOGGER_H
+#define __LOGGER_H
+
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -44,3 +47,5 @@ private:
 };
 
 } // namespace Log
+
+#endif

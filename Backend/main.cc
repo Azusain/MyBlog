@@ -18,9 +18,11 @@
 
 // fmt-io lib
 #include <fmt/core.h>
+#include <fmt/ranges.h>
 
-#include  "Logger.h"
-
+#include "Logger.h"
+#include "Server.h"
+#include "CRequest.h"
 
 std::string ROOT_PATH = "../";
 
@@ -33,7 +35,6 @@ struct DirCloser {
     return;
   }
 };
-
 
 void scan_blogs_dir(std::string base_path){
   std::unique_ptr<DIR, DirCloser> dir(opendir(base_path.c_str()));
@@ -61,11 +62,10 @@ void scan_blogs_dir(std::string base_path){
 
 
 
-int main(int, char **) {
-  
-  Log::Logger({3, 3}).log({"200", "OK"}, {Log::Coloraiton{Log::ANSI_BG_MAGENTA, Log::ANSI_BG_GREEN, 0}});
-  
 
+
+int main(int, char **) {
+  Server s;
 
   return 0;
 }
