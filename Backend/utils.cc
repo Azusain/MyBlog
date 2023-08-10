@@ -8,15 +8,19 @@ namespace CRequest {
 
 namespace Utils {
 
-std::vector<std::string>* split(const std::string& str, char delimiter) {
+std::vector<std::string>* split(const std::string& str, const std::string& delimiter) {
     auto result = new std::vector<std::string>();
-    std::stringstream ss(str);
-    std::string token;
-    while (std::getline(ss, token, delimiter)) {
-        result -> push_back(token);
+    size_t start = 0;
+    size_t end = str.find(delimiter);
+    while (end != std::string::npos) {
+        result -> push_back(str.substr(start, end - start));
+        start = end + delimiter.length();
+        end = str.find(delimiter, start);
     }
+    result -> push_back(str.substr(start, end));
     return result;
 }
+
 
 
 

@@ -66,6 +66,11 @@ HTTP_Message::HTTP_Message(const std::vector<std::string>& header_lines)
   : header_lines(header_lines){}
 
 
+void HTTP_Message::set_body(std::string body_str) {
+  this -> body = body_str;
+}
+
+
 void HTTP_Message::add_hdr_ln(std::string hdr_ln) {
   this -> header_lines.push_back(hdr_ln);
   return;
@@ -96,9 +101,9 @@ std::string HTTP_Request::to_string() {
       fmt::format("{} {} {}\n", this -> method, this -> url, HTTP_VERSION_011)
     );
     for (auto &&header_line : this -> header_lines){
-        req_msg.append(header_line + "\n");
+        req_msg.append(header_line + "\r\n");
     }
-    req_msg.append("\n\n");
+    req_msg.append("\r\n\r\n");
     return req_msg.append(this -> body);
 }
 
@@ -112,9 +117,9 @@ std::string HTTP_Response::to_string(){
        STATUS_CODES[this -> status_code]));
 
     for (auto &&header_line : this -> header_lines){
-        res_msg.append(header_line + "\n");
+        res_msg.append(header_line + "\r\n");
     }
-    res_msg.append("\n\n");
+    res_msg.append("\r\n\r\n");
     return res_msg.append(this -> body);
 }
 

@@ -69,6 +69,6 @@ void scan_blogs_dir(std::string base_path){
 
 
 int main(int, char **) {
-  
+  Server s(8080);
   return 0;
 }

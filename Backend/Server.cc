@@ -1,15 +1,24 @@
+#include <unistd.h>
+
 #include "Server.h"
 #include "CRequest.h"
 #include "utils.h"
+#include "Logger.h"
 #include <fmt/core.h>
+
 
 #include <memory>
 #include <regex>
 #include <sstream>
 
-Server::Server()
-    :MAX_CONNECTIONS(10), BUFFER_SIZE(1024), PORT(8080){
+Server::Server(uint16_t port)
+    :MAX_CONNECTIONS(10), BUFFER_SIZE(1024), PORT(port){
     
+    // init logger
+    Log::Logger logger({20});
+    Log::Coloraiton val_0{Log::ANSI_TX_WHITE, Log::ANSI_BG_GREEN, 0};
+    logger.log({fmt::format("Server runs on {}", this -> PORT)}, {val_0});
+
     int addrlen = sizeof(this -> address);
     this -> server_fd = socket(AF_INET, SOCK_STREAM, 0);
     this -> address.sin_family = AF_INET;
@@ -23,7 +32,7 @@ Server::Server()
         listen(server_fd, this -> MAX_CONNECTIONS);
         ssize_t new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
         
-        fmt::println("Sokcet from queue");
+        logger.log({"New request"}, {val_0});
         
         
         service_handler(new_socket);
@@ -31,20 +40,24 @@ Server::Server()
 }
 
 
-void Server::service_handler(ssize_t& fd) {
-
+void Server::service_handler(ssize_t fd) {
+    // sleep(1);
     char buffer[this -> BUFFER_SIZE] = {0}; // buffer for reading from socket buf
     std::string msg_buf; // buffer for structuring data
     std::unique_ptr<CRequest::HTTP_Request> req_p(new CRequest::HTTP_Request);
 
     // deal with header
-    std::regex hdr_div("\n\n");
+    std::regex hdr_div("\r\n\r\n"); // divided by CRLF
     std::cmatch res;
     size_t req_msg_len = 0;
     bool hdr_end = false;     
 
     while(1) {
-      read(fd, buffer, this -> BUFFER_SIZE);
+      
+      ssize_t len_read = read(fd, buffer, this -> BUFFER_SIZE);
+
+      std::cout << buffer;
+
       hdr_end = std::regex_search(buffer, res, hdr_div);
       if(hdr_end) {
         const std::string full_hdr(msg_buf + res.prefix().str());
@@ -56,7 +69,7 @@ void Server::service_handler(ssize_t& fd) {
         }
 
         std::unique_ptr<std::vector<std::string>> 
-          hdr_ptr(CRequest::Utils::split(full_hdr, '\n'));
+          hdr_ptr(CRequest::Utils::split(full_hdr, "\r\n"));
         msg_buf.clear();
         msg_buf.append(res.suffix().str());
 
@@ -64,7 +77,7 @@ void Server::service_handler(ssize_t& fd) {
         for (auto& ln : *hdr_ptr) {
           if(is_fst_ln) {
             std::unique_ptr<std::vector<std::string>>
-              fst_ln_ptr(CRequest::Utils::split(ln, ' '));
+              fst_ln_ptr(CRequest::Utils::split(ln, " "));
               req_p -> set_fst_hdr_ln((*fst_ln_ptr)[0], (*fst_ln_ptr)[1], 
                 (*fst_ln_ptr)[2]);
             is_fst_ln = false;
@@ -72,8 +85,11 @@ void Server::service_handler(ssize_t& fd) {
             req_p -> add_hdr_ln(ln);
           }
         }
+        break;
       }
-      msg_buf.append(buffer);
+      if(len_read > 0) {
+        msg_buf.append(buffer);
+      }
     }
     
     // deal with body
