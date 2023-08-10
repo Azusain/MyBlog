@@ -51,6 +51,9 @@
       "stdexcept": "cpp",
       "streambuf": "cpp",
       "typeinfo": "cpp",
-      "iomanip": "cpp"
+      "iomanip": "cpp",
+      "regex": "cpp",
+      "bitset": "cpp",
+      "unordered_set": "cpp"
     }
 }

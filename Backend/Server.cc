@@ -1,7 +1,11 @@
-#include    "Server.h"
-#include    "CRequest.h"
-#include    <fmt/core.h>
+#include "Server.h"
+#include "CRequest.h"
+#include "utils.h"
+#include <fmt/core.h>
 
+#include <memory>
+#include <regex>
+#include <sstream>
 
 Server::Server()
     :MAX_CONNECTIONS(10), BUFFER_SIZE(1024), PORT(8080){
@@ -27,23 +31,79 @@ Server::Server()
 }
 
 
-void Server::service_handler(ssize_t& fd){
-    char buffer[this -> BUFFER_SIZE] = {0};
+void Server::service_handler(ssize_t& fd) {
 
-    std::string res_msg = CRequest::HTTP_Response(200, {CRequest::Header_Generator::set_content_len(0)}).to_string();
+    char buffer[this -> BUFFER_SIZE] = {0}; // buffer for reading from socket buf
+    std::string msg_buf; // buffer for structuring data
+    std::unique_ptr<CRequest::HTTP_Request> req_p(new CRequest::HTTP_Request);
 
+    // deal with header
+    std::regex hdr_div("\n\n");
+    std::cmatch res;
+    size_t req_msg_len = 0;
+    bool hdr_end = false;     
 
-    ssize_t len = 0;
-    std::string msg;                        // really huge BUGGGGGGG!!!!!
-    read(fd, buffer, this -> BUFFER_SIZE);  // why the hell this shit isnt working? -----+
-    //                                                                                   |
-    // while ((len = read(fd, buffer, this -> BUFFER_SIZE)) > 0){   <--------------------+
-    //     msg.append(buffer);
-    // }
-    std::cout << buffer;
+    while(1) {
+      read(fd, buffer, this -> BUFFER_SIZE);
+      hdr_end = std::regex_search(buffer, res, hdr_div);
+      if(hdr_end) {
+        const std::string full_hdr(msg_buf + res.prefix().str());
+        std::regex find_len("Content-Length:(\\d+)");
+        std::smatch len_res;
+        bool len_found = std::regex_search(full_hdr, len_res, find_len);
+        if(len_found) {
+          req_msg_len = std::stoi(len_res.str(1));
+        }
 
+        std::unique_ptr<std::vector<std::string>> 
+          hdr_ptr(CRequest::Utils::split(full_hdr, '\n'));
+        msg_buf.clear();
+        msg_buf.append(res.suffix().str());
 
-    send(fd, res_msg.c_str(), res_msg.length(), 0);
+        bool is_fst_ln = true;
+        for (auto& ln : *hdr_ptr) {
+          if(is_fst_ln) {
+            std::unique_ptr<std::vector<std::string>>
+              fst_ln_ptr(CRequest::Utils::split(ln, ' '));
+              req_p -> set_fst_hdr_ln((*fst_ln_ptr)[0], (*fst_ln_ptr)[1], 
+                (*fst_ln_ptr)[2]);
+            is_fst_ln = false;
+          }else {
+            req_p -> add_hdr_ln(ln);
+          }
+        }
+      }
+      msg_buf.append(buffer);
+    }
+    
+    // deal with body
+    ssize_t bytes_read_cur = 0;
+    ssize_t bytes_left = req_msg_len;
+    if(req_msg_len) {
+      while (1) {
+        bytes_read_cur += read(fd, buffer, bytes_left);
+        bytes_left -= bytes_read_cur;
+        
+        if(bytes_left) {
+          msg_buf.append(buffer);
+        }else {
+          req_p -> set_body(msg_buf + buffer);
+          break;
+        }
+      }
+    }
+
+    /**
+     * 
+     * Deal with HTTP_Request obj here... 
+     * 
+    */
+  
+    // response to client
+    std::string resp_msg = CRequest::HTTP_Response(200, {CRequest::Header_Generator::set_content_len(0)}).to_string();
+    send(fd, resp_msg.c_str(), resp_msg.length(), 0);
+  
+    // end connection
 
     close(fd);
     return;

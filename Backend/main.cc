@@ -15,6 +15,8 @@
 // C++ 11
 #include <memory> // unique_ptr<T>
 #include <chrono>
+#include <regex>
+
 
 // fmt-io lib
 #include <fmt/core.h>
@@ -23,6 +25,8 @@
 #include "Logger.h"
 #include "Server.h"
 #include "CRequest.h"
+#include "utils.h"
+
 
 std::string ROOT_PATH = "../";
 
@@ -65,7 +69,6 @@ void scan_blogs_dir(std::string base_path){
 
 
 int main(int, char **) {
-  Server s;
-
+  
   return 0;
 }

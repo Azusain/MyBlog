@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 14) # required by GoogleTest
 
 include_directories(
     /usr/include/
-    ./include/utils/
+    ./include/utils
     ./include/
 )
 
@@ -13,7 +13,7 @@ link_directories(
 )
 
 
-add_executable(Backend main.cc Logger.cc Server.cc CRequest.cc)
+add_executable(Backend main.cc Logger.cc Server.cc CRequest.cc utils.cc)
 
 
 target_link_libraries(Backend

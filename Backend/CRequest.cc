@@ -7,13 +7,19 @@
 
 namespace CRequest {
 
-std::unordered_map<uint16_t, std::string> STATUS_CODES = {
+std::unordered_map<uint16_t, std::string> STATUS_CODES = { 
   {200, "OK"},
   {301, "Moved Permanently"},
   {400, "Bad Request"},
   {404, "Not Found"},
   {505, "HTTP Version Not Supported"},
 }; 
+
+const std::unordered_set<std::string> HTTP_METHODS = {
+  "GET", "POST", "OPTIONS", "PUT"
+};
+
+
 
 const std::string  CONNECTION_CLOSE = "Close";
 const std::string  CONNECTION_KEEP_ALIVE = "keep-alive";
@@ -56,23 +62,32 @@ std::string Header_Generator::set_content_len(size_t len) {
 
 HTTP_Message::HTTP_Message(){}
 
- HTTP_Message::HTTP_Message(const std::vector<std::string>& header_lines)
+HTTP_Message::HTTP_Message(const std::vector<std::string>& header_lines)
   : header_lines(header_lines){}
 
-std::vector<std::string> parse(const std::string& msg) {
-  std::stringstream ss(msg);
-  std::string buf;
-  std::vector<std::string> ret;
-  while(std::getline(ss, buf, '\n')) {
-    ret.push_back(buf);
-  }
-  return ret;
+
+void HTTP_Message::add_hdr_ln(std::string hdr_ln) {
+  this -> header_lines.push_back(hdr_ln);
+  return;
 }
 
 
- HTTP_Request::HTTP_Request(std::string method, std::string url,
+
+HTTP_Request::HTTP_Request(){}
+
+
+HTTP_Request::HTTP_Request(std::string method, std::string url,
   const std::vector<std::string>& header_lines)
-    :HTTP_Message(header_lines), method(method), url(url){}
+  :HTTP_Message(header_lines), method(method), url(url) {
+    // validation checks here
+    if(HTTP_METHODS.find(method) == HTTP_METHODS.end()) {
+      /**
+       * reclaimation is needed here~
+       * */ 
+      throw std::runtime_error("method invaild");
+    }
+
+  }
 
 
 std::string HTTP_Request::to_string() {
@@ -102,5 +117,20 @@ std::string HTTP_Response::to_string(){
     res_msg.append("\n\n");
     return res_msg.append(this -> body);
 }
+
+void HTTP_Request::set_fst_hdr_ln(std::string method, std::string url, 
+  std::string ver) {
+  this -> method = method;
+  this -> url = url;
+  this -> version = ver;
+  return;
+}
+
+
+
+
+
+
+
 
 } // namespace CRequest
