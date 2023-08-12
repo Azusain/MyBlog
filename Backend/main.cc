@@ -1,7 +1,7 @@
 // Unix C
 #include <unistd.h>
 #include <dirent.h>
-
+#include <sys/epoll.h>
 // C++ basic
 #include <iostream>
 #include <vector>
@@ -59,8 +59,6 @@ void scan_blogs_dir(std::string base_path){
     }
     fmt::print("{} {}\n", file_type_name, dir_itor -> d_name);
   }
-
-
   return;
 }
 
@@ -70,5 +68,8 @@ void scan_blogs_dir(std::string base_path){
 
 int main(int, char **) {
   Server s(8080);
+  s.start();
+
+  
   return 0;
 }

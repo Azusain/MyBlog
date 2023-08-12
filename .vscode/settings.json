@@ -1,25 +1,25 @@
 {
-  "workbench.iconTheme": "Monokai Pro Icons",
-  "remote.SSH.remotePlatform": {
-      "120.77.13.22": "linux",
-      "192.168.31.217": "linux",
-      "8.219.238.51": "linux"
-  },
-  "workbench.sideBar.location": "right",
-  "C_Cpp.default.compilerPath": "C:\\Program Files\\mingw64_lib_12.2\\bin\\g++.exe",
-  "editor.bracketPairColorization.enabled": false,
-  "[cmake]": {},
-  "terminal.integrated.enableMultiLinePasteWarning": false,
-  "git.openRepositoryInParentFolders": "never",
-  "C_Cpp.default.cppStandard": "gnu++20",
-  "terminal.integrated.fontFamily": "Cascadia Code",
-  "window.zoomLevel": 0,
-  "workbench.colorTheme": "Monokai Pro",
-  "editor.fontFamily": "Cascadia Code",
-  "editor.tabSize": 4,
-  "editor.detectIndentation": false,
-  "editor.formatOnSave": true,
-  "files.associations": {
-    "*.css":"tailwindcss"
-  }
+    "workbench.iconTheme": "Monokai Pro Icons",
+    "remote.SSH.remotePlatform": {
+        "120.77.13.22": "linux",
+        "192.168.31.217": "linux",
+        "8.219.238.51": "linux"
+    },
+    "workbench.sideBar.location": "right",
+    "C_Cpp.default.compilerPath": "C:\\Program Files\\mingw64_lib_12.2\\bin\\g++.exe",
+    "editor.bracketPairColorization.enabled": false,
+    "[cmake]": {},
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "git.openRepositoryInParentFolders": "never",
+    "C_Cpp.default.cppStandard": "gnu++20",
+    "terminal.integrated.fontFamily": "Cascadia Code",
+    "window.zoomLevel": 2,
+    "workbench.colorTheme": "Monokai Pro",
+    "editor.fontFamily": "Cascadia Code",
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "*.css": "tailwindcss"
+    }
 }

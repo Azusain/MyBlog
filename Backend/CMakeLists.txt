@@ -13,7 +13,14 @@ link_directories(
 )
 
 
-add_executable(Backend main.cc Logger.cc Server.cc CRequest.cc utils.cc)
+add_executable(Backend 
+  main.cc 
+  Logger.cc 
+  Server.cc 
+  CRequest.cc 
+  utils.cc 
+  Service.cc
+)
 
 
 target_link_libraries(Backend

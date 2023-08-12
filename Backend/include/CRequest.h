@@ -86,7 +86,7 @@ public:
     void set_fst_hdr_ln(std::string method, std::string url, std::string ver);
 
     std::string  to_string();
-private:
+protected:
     std::string  method;
     std::string  url;
     std::string  version;
