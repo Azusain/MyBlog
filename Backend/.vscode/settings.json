@@ -55,6 +55,14 @@
       "regex": "cpp",
       "bitset": "cpp",
       "unordered_set": "cpp",
-      "cinttypes": "cpp"
+      "cinttypes": "cpp",
+      "condition_variable": "cpp",
+      "list": "cpp",
+      "map": "cpp",
+      "set": "cpp",
+      "mutex": "cpp",
+      "semaphore": "cpp",
+      "stop_token": "cpp",
+      "thread": "cpp"
     }
 }

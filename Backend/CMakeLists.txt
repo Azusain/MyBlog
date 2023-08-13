@@ -18,8 +18,9 @@ add_executable(Backend
   Logger.cc 
   Server.cc 
   CRequest.cc 
-  utils.cc 
+  Utils.cc 
   Service.cc
+  PassageLoader.cc
 )
 
 

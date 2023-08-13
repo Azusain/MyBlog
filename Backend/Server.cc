@@ -11,13 +11,11 @@
 // proj files
 #include "Server.h"
 #include "CRequest.h"
-#include "utils.h"
+#include "Utils.h"
 #include "Logger.h"
 #include "Service.h"
+#include "Runtime.hpp"
 
-// init logger
-Log::Logger logger({20});
-Log::Coloraiton field_clr_0{Log::ANSI_TX_WHITE, Log::ANSI_BG_GREEN, 0};
 
 
 Server::Server(uint16_t port)
