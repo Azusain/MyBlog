@@ -21,6 +21,7 @@ add_executable(Backend
   Utils.cc 
   Service.cc
   PassageLoader.cc
+  Runtime.cc
 )
 
 # 3rd-parties lib

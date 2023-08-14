@@ -16,7 +16,7 @@ std::unordered_map<uint16_t, std::string> STATUS_CODES = {
 }; 
 
 const std::unordered_set<std::string> HTTP_METHODS = {
-  "GET", "POST", "OPTIONS", "PUT"
+  "GET", "POST", "OPTIONS", "PUT", "DELETE"
 };
 
 

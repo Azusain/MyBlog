@@ -1,3 +1,7 @@
+#ifndef __UTILS_H
+#define __UTILS_H
+
+
 // unix 
 #include <dirent.h>
 // c++ std
@@ -24,7 +28,7 @@ public:
   FileLoader(std::string rt_pth);
   
   std::vector<std::string> srch_dir(const std::string& rlt_pth,
-    FileFilter f, bool log=false);
+    FileFilter f, bool log);
 
 protected:
   std::string rt_pth;
@@ -39,3 +43,5 @@ protected:
 
 
 } // namesapce CRequest
+
+#endif

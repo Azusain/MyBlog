@@ -1,5 +1,5 @@
 #include "PassageLoader.h"
-#include "Runtime.hpp"
+#include "Runtime.h"
 
 
 PassageLoader::PassageLoader(const std::string&& base_path)
@@ -8,7 +8,7 @@ PassageLoader::PassageLoader(const std::string&& base_path)
 
 bool PassageLoader::load() {
   std::vector<std::string> dirs(
-    this -> srch_dir(this -> rt_pth, Runtime::file_filter_dir, true));
+    this -> srch_dir("", Runtime::file_filter_dir, true));
   
   for(auto& dir_name : dirs) {
     Column c;
@@ -17,7 +17,7 @@ bool PassageLoader::load() {
     c.img = "no images here";
     
     auto passages(this -> srch_dir(
-      this -> rt_pth + dir_name, Runtime::file_filter_file, false));
+      dir_name, Runtime::file_filter_file, false));
     for(auto& p_name: passages) {
       Passgae p;
       p.title = p_name;
@@ -29,4 +29,8 @@ bool PassageLoader::load() {
   return true;
 }
 
-
+// @todo
+Json::Value toJson() {
+  Json::Value rt;
+  return rt;
+}

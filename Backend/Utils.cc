@@ -29,8 +29,6 @@ std::vector<std::string>* split(const std::string& str, const std::string& delim
 typedef bool(*FileFilter)(const dirent*);
 
 
-
-
 struct DirCloser {
   void operator()(DIR* dir){
     if(dir){
@@ -43,6 +41,7 @@ struct DirCloser {
 FileLoader::FileLoader(std::string rt_pth)
   :rt_pth(rt_pth) {}
 
+// 
 std::vector<std::string> FileLoader::srch_dir(const std::string& rlt_pth,
   FileFilter tf=nullptr, bool log=false) {
   std::string cur_pth(this -> rt_pth + rlt_pth);
@@ -62,6 +61,10 @@ std::vector<std::string> FileLoader::srch_dir(const std::string& rlt_pth,
       file_type_name = "file";
     }else if(file_type == DT_DIR) {
       file_type_name = "dir";
+    }
+    // leave alone '.' and '..'
+    if(strcmp(".", dir_itor -> d_name) || strcmp("..", dir_itor -> d_name)) {
+      continue; 
     }
     if(tf == nullptr || tf(dir_itor)) {
       file_pths.push_back(dir_itor -> d_name);

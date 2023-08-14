@@ -28,7 +28,7 @@
 #include "Server.h"
 #include "CRequest.h"
 #include "Utils.h"
-#include "Runtime.hpp"
+#include "Runtime.h"
 
 
 
@@ -38,8 +38,8 @@
 
 // @todo: needs exception handler
 int main(int, char **) {
-  bool run_or_not = Runtime::psg_loader.load();
-  std::cout << std::boolalpha << run_or_not << "\n";
+  bool succeed_load = Runtime::psg_loader.load();
+  std::cout << std::boolalpha << succeed_load << "\n";
   // Server s(8080);
   // s.start();
   // CRequest::Utils::FileLoader fl("/root/github-repo/MyBlog/Backend");

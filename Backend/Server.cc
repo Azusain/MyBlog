@@ -14,8 +14,7 @@
 #include "Utils.h"
 #include "Logger.h"
 #include "Service.h"
-#include "Runtime.hpp"
-
+#include "Runtime.h"
 
 
 Server::Server(uint16_t port)
@@ -25,7 +24,6 @@ Server::Server(uint16_t port)
     this -> address.sin_addr.s_addr = INADDR_ANY;
     this -> address.sin_port = htons(this -> PORT);        
 }
-
 
 void Server::start() {
   
@@ -143,28 +141,22 @@ void Server::parser(ssize_t fd) {
     }
   }
 
-  /**
-   * 
-   * Deal with HTTP_Request obj here...  req_p -> ?
-   * 
-  */
-
+  // Deal with request and response
   Service sv(*req_p);
-  int stat_code = 404;
   
-  std::string resp_msg;
-  
-  if(sv.route_match(resp_msg)) {
+  std::string msg_buf;
+  if(sv.route_match(msg_buf)) {
+    auto resp = CRequest::HTTP_Response(
+      200, {CRequest::Header_Generator::set_content_len(0)});
+    resp.set_body(msg_buf);
+    std::string resp_msg = resp.to_string();
     send(fd, resp_msg.c_str(), resp_msg.length(), 0);
+
   } else {
     std::string err_msg = CRequest::HTTP_Response(
-    stat_code, {CRequest::Header_Generator::set_content_len(0)}).to_string();
-    send(fd, resp_msg.c_str(), err_msg.length(), 0);
+      404, {CRequest::Header_Generator::set_content_len(0)}).to_string();
+    send(fd, err_msg.c_str(), err_msg.length(), 0);
   }
-
-  // response to client
-  
-  
 
   // end tcp
   // Non-Persistent HTTP
