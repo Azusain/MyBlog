@@ -29,7 +29,8 @@ Server::Server(uint16_t port)
 
 void Server::start() {
   
-  logger.log({fmt::format("Server runs on {}", this -> PORT)}, {field_clr_0});
+  Runtime::logger.log({fmt::format("Server runs on {}", this -> PORT)}, 
+    {Runtime::field_clr_0});
   
   // init acceptor
   int addrlen = sizeof(this -> address);
@@ -49,7 +50,7 @@ void Server::start() {
       perror("err accepting socket\n");
       continue;
     }
-    logger.log({"New request"}, {field_clr_0});
+    Runtime::logger.log({"New request"}, {Runtime::field_clr_0});
     // epoll
     epoll_event ev;
     ev.events = EPOLLIN;
@@ -72,7 +73,6 @@ void* Server::reader(void* arg) {
       serv_p -> parser(evs[i].data.fd);
     }
   }
-
   return nullptr;  
 }
 
@@ -151,16 +151,23 @@ void Server::parser(ssize_t fd) {
 
   Service sv(*req_p);
   int stat_code = 404;
-  if(sv.route_match()) {
-    stat_code = 200;
-  } 
+  
+  std::string resp_msg;
+  
+  if(sv.route_match(resp_msg)) {
+    send(fd, resp_msg.c_str(), resp_msg.length(), 0);
+  } else {
+    std::string err_msg = CRequest::HTTP_Response(
+    stat_code, {CRequest::Header_Generator::set_content_len(0)}).to_string();
+    send(fd, resp_msg.c_str(), err_msg.length(), 0);
+  }
 
   // response to client
-  std::string resp_msg = CRequest::HTTP_Response(stat_code, {CRequest::Header_Generator::set_content_len(0)}).to_string();
-  send(fd, resp_msg.c_str(), resp_msg.length(), 0);
+  
+  
 
   // end tcp
-  // @todo: maybe optimized for Persistent HTTP
+  // Non-Persistent HTTP
   close(fd); 
   return;
 }

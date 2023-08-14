@@ -23,8 +23,9 @@ add_executable(Backend
   PassageLoader.cc
 )
 
-
+# 3rd-parties lib
 target_link_libraries(Backend
     fmt
+    # jsoncpp
     # google_test
 )

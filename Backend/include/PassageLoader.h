@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "Utils.h"
 struct Passgae {
   std::string title;
   std::string brief;
@@ -16,17 +17,14 @@ struct Column {
   std::vector<Passgae>     passgaes;
 };
 
-class PassageLoader {
+class PassageLoader : public CRequest::Utils::FileLoader {
 public:  
-  PassageLoader();
+  PassageLoader(const std::string&& base_path);
 
+  bool load();
 
 private:
   std::vector<Column> columns;
-
-
-
-
 };
 
 

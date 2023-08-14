@@ -2,36 +2,23 @@
 #define __SERVICE_H
 
 #include "CRequest.h"
+#include <map>
+
 
 class Service : public CRequest::HTTP_Request {
 public:
   
   Service(const CRequest::HTTP_Request& hr);
   
-  bool route_match();  
+  bool route_match(std::string& buf);  
 
+  bool authenticate();
+  
+  
 private:
   Service();
   
-  bool authenticate();
-
 };
-
-
-struct Passgae {
-  std::string title;
-  std::string brief;
-};
-
-
-
-struct Column {
-  std::string              title;
-  std::string              brief;
-  std::string              img;
-  std::vector<Passgae> passgaes;
-};
-
 
 
 #endif

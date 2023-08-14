@@ -26,6 +26,10 @@ std::vector<std::string>* split(const std::string& str, const std::string& delim
     return result;
 }
 
+typedef bool(*FileFilter)(const dirent*);
+
+
+
 
 struct DirCloser {
   void operator()(DIR* dir){
@@ -39,7 +43,8 @@ struct DirCloser {
 FileLoader::FileLoader(std::string rt_pth)
   :rt_pth(rt_pth) {}
 
-std::vector<std::string> FileLoader::srch_dir(std::string&& rlt_pth, bool log=false) {
+std::vector<std::string> FileLoader::srch_dir(const std::string& rlt_pth,
+  FileFilter tf=nullptr, bool log=false) {
   std::string cur_pth(this -> rt_pth + rlt_pth);
   std::vector<std::string> file_pths;
   std::unique_ptr<DIR, DirCloser> dir(opendir(cur_pth.c_str()));
@@ -58,9 +63,11 @@ std::vector<std::string> FileLoader::srch_dir(std::string&& rlt_pth, bool log=fa
     }else if(file_type == DT_DIR) {
       file_type_name = "dir";
     }
-    file_pths.push_back(dir_itor -> d_name);
-    if(log) {
-      fmt::print("{} {}\n", file_type_name, dir_itor -> d_name);
+    if(tf == nullptr || tf(dir_itor)) {
+      file_pths.push_back(dir_itor -> d_name);
+      if(log) {
+        fmt::print("{} {}\n", file_type_name, dir_itor -> d_name);
+      }
     }
   }
   return file_pths;
