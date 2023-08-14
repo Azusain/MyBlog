@@ -27,6 +27,6 @@ add_executable(Backend
 # 3rd-parties lib
 target_link_libraries(Backend
     fmt
-    # jsoncpp
+    jsoncpp
     # google_test
 )

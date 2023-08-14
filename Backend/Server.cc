@@ -144,11 +144,11 @@ void Server::parser(ssize_t fd) {
   // Deal with request and response
   Service sv(*req_p);
   
-  std::string msg_buf;
-  if(sv.route_match(msg_buf)) {
+  std::string resp_msg_buf;
+  if(sv.route_match(resp_msg_buf)) {
     auto resp = CRequest::HTTP_Response(
       200, {CRequest::Header_Generator::set_content_len(0)});
-    resp.set_body(msg_buf);
+    resp.set_body(resp_msg_buf);
     std::string resp_msg = resp.to_string();
     send(fd, resp_msg.c_str(), resp_msg.length(), 0);
 

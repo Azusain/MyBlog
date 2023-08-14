@@ -62,8 +62,8 @@ std::vector<std::string> FileLoader::srch_dir(const std::string& rlt_pth,
     }else if(file_type == DT_DIR) {
       file_type_name = "dir";
     }
-    // leave alone '.' and '..'
-    if(strcmp(".", dir_itor -> d_name) || strcmp("..", dir_itor -> d_name)) {
+    // ignore dir named '.' and '..'
+    if(!strcmp(".", dir_itor -> d_name) || !strcmp("..", dir_itor -> d_name)) {
       continue; 
     }
     if(tf == nullptr || tf(dir_itor)) {

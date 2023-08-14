@@ -34,8 +34,6 @@
 
 
 
-
-
 // @todo: needs exception handler
 int main(int, char **) {
   bool succeed_load = Runtime::psg_loader.load();
