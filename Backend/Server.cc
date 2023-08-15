@@ -27,8 +27,7 @@ Server::Server(uint16_t port)
 
 void Server::start() {
   
-  Runtime::logger.log({fmt::format("Server runs on {}", this -> PORT)}, 
-    {Runtime::field_clr_0});
+  fmt::println("Server runs on {}", this -> PORT);
   
   // init acceptor
   int addrlen = sizeof(this -> address);
@@ -48,7 +47,7 @@ void Server::start() {
       perror("err accepting socket\n");
       continue;
     }
-    Runtime::logger.log({"New request"}, {Runtime::field_clr_0});
+    fmt::println("New request");
     // epoll
     epoll_event ev;
     ev.events = EPOLLIN;
@@ -142,16 +141,12 @@ void Server::parser(ssize_t fd) {
   }
 
   // Deal with request and response
+  CRequest::HTTP_Response* hresp_p;
   Service sv(*req_p);
   
-  std::string resp_msg_buf;
-  if(sv.route_match(resp_msg_buf)) {
-    auto resp = CRequest::HTTP_Response(
-      200, {CRequest::Header_Generator::set_content_len(0)});
-    resp.set_body(resp_msg_buf);
-    std::string resp_msg = resp.to_string();
+  if(sv.route_match(hresp_p)) {
+    std::string resp_msg = hresp_p -> to_string();
     send(fd, resp_msg.c_str(), resp_msg.length(), 0);
-
   } else {
     std::string err_msg = CRequest::HTTP_Response(
       404, {CRequest::Header_Generator::set_content_len(0)}).to_string();
@@ -160,6 +155,7 @@ void Server::parser(ssize_t fd) {
 
   // end tcp
   // Non-Persistent HTTP
+  delete hresp_p;
   close(fd); 
   return;
 }

@@ -37,6 +37,7 @@ namespace Header_Generator{
 
   std::string set_content_len(size_t len);
 
+  std::string set_token(std::string token);
   // default: User-Agent, Content-Type, Host
 } // namespace Header_Generator
 
@@ -62,15 +63,15 @@ protected:
 
 class HTTP_Response : public HTTP_Message {
 public:
-    HTTP_Response();
 
     HTTP_Response(uint16_t stat_code, const std::vector<std::string>& hdr_lns);
     
     void set_fst_hdr_ln(uint16_t stat_code, std::string ver);
 
     std::string  to_string();
-private:
+
     uint16_t     status_code;
+private:
     std::string  version;
 };
 

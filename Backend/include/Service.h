@@ -10,11 +10,14 @@ public:
   
   Service(const CRequest::HTTP_Request& hr);
   
-  bool route_match(std::string& buf);  
+  bool route_match(CRequest::HTTP_Response* hresp_p);  
 
-  bool authenticate();
+  bool authenticate(std::string&);
   
-  
+  bool authenticate(std::string&, std::string&);
+
+  std::map<std::string, std::string> hdr_map;
+
 private:
   Service();
   

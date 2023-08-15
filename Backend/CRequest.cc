@@ -59,6 +59,9 @@ std::string Header_Generator::set_content_len(size_t len) {
   return fmt::format("Content-Length:{}", len);
 }
 
+std::string Header_Generator::set_token(std::string token) {
+  return fmt::format("Token:{}", token);
+}
 
 HTTP_Message::HTTP_Message(){}
 
@@ -106,6 +109,7 @@ std::string HTTP_Request::to_string() {
     req_msg.append("\r\n\r\n");
     return req_msg.append(this -> body);
 }
+
 
 
  HTTP_Response::HTTP_Response(uint16_t status_code, const std::vector<std::string>& header_lines)

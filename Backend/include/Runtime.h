@@ -6,7 +6,8 @@
 namespace Runtime{
 // init logger
 extern Log::Logger logger;
-extern Log::Coloraiton field_clr_0;
+extern Log::Coloraiton field_clr_200;
+extern Log::Coloraiton field_clr_404;
 
 extern PassageLoader psg_loader;
 

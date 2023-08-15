@@ -9,6 +9,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+// 3rd-parities
+#include "json/json.h"
 
 namespace CRequest {
 
@@ -20,7 +22,7 @@ std::vector<std::string>* split(const std::string& str, const std::string& delim
 typedef bool(*FileFilter)(const dirent*);
 
 
-
+std::string json2str(const Json::Value& v, bool fmt_output);
 
 
 class FileLoader {

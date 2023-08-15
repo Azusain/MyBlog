@@ -12,6 +12,7 @@
 #include <unordered_map>
 
 // C++ 11
+
 #include <memory> // unique_ptr<T>
 #include <chrono>
 #include <regex>
@@ -35,13 +36,20 @@
 
 
 // @todo: needs exception handler
+// @todo：lots of funcs need RVO 
+// @todo: getpeername()
 int main(int, char **) {
+  // load passgaes from localfile;
   bool succeed_load = Runtime::psg_loader.load();
-  std::cout << std::boolalpha << succeed_load << "\n";
-  // Server s(8080);
-  // s.start();
+  
+ 
+  
+  
+  Server s(8080);
+  s.start();
   // CRequest::Utils::FileLoader fl("/root/github-repo/MyBlog/Backend");
   // fl.srch_dir("", true);
   // Json::Value jv;
+  
   return 0;
 }

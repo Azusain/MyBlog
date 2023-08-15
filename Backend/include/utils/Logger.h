@@ -49,3 +49,5 @@ private:
 } // namespace Log
 
 #endif
+
+// @todo: feat: customized output stream

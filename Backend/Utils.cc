@@ -9,6 +9,7 @@
 #include "fmt/core.h"
 #include "Utils.h"
 
+#include "json/json.h"
 namespace CRequest {
 
 namespace Utils {
@@ -25,6 +26,15 @@ std::vector<std::string>* split(const std::string& str, const std::string& delim
     result -> push_back(str.substr(start, end));
     return result;
 }
+
+std::string json2str(const Json::Value& v, bool fmt_output=false) {
+  Json::StreamWriterBuilder builder;
+  if(!fmt_output) {
+      builder["indentation"] = "";
+  }
+  return Json::writeString(builder, v); // auto RVO by compilor
+}
+
 
 typedef bool(*FileFilter)(const dirent*);
 
