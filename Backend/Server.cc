@@ -47,7 +47,6 @@ void Server::start() {
       perror("err accepting socket\n");
       continue;
     }
-    fmt::println("New request");
     // epoll
     epoll_event ev;
     ev.events = EPOLLIN;
@@ -55,7 +54,7 @@ void Server::start() {
     epoll_ctl(this -> epoll_fd, EPOLL_CTL_ADD, new_socket, &ev);
   }
   // @todo: remember rsrc recycling 
-  pthread_join(serv_th, NULL);
+  // pthread_join(serv_th, NULL);
 }
 
 
@@ -92,7 +91,7 @@ void Server::parser(ssize_t fd) {
     hdr_end = std::regex_search(buffer, res, hdr_div);
     if(hdr_end) {
       const std::string full_hdr(msg_buf + res.prefix().str());
-      std::regex find_len("Content-Length:(\\d+)");
+      std::regex find_len("Content-Length:[ ]{0,}(\\d+)");
       std::smatch len_res;
       bool len_found = std::regex_search(full_hdr, len_res, find_len);
       if(len_found) {
@@ -125,7 +124,7 @@ void Server::parser(ssize_t fd) {
   
   // deal with body
   ssize_t bytes_read_cur = 0;
-  ssize_t bytes_left = req_msg_len;
+  ssize_t bytes_left = req_msg_len - msg_buf.length();
   if(req_msg_len) {
     while (1) {
       bytes_read_cur += read(fd, buffer, bytes_left);
@@ -147,15 +146,19 @@ void Server::parser(ssize_t fd) {
   if(sv.route_match(hresp_p)) {
     std::string resp_msg = hresp_p -> to_string();
     send(fd, resp_msg.c_str(), resp_msg.length(), 0);
+    if(hresp_p != nullptr) {
+      delete hresp_p;
+    }
   } else {
-    std::string err_msg = CRequest::HTTP_Response(
-      404, {CRequest::Header_Generator::set_content_len(0)}).to_string();
-    send(fd, err_msg.c_str(), err_msg.length(), 0);
+    std::string err_msg = "route invalid";
+    hresp_p = new CRequest::HTTP_Response(404, {
+      CRequest::Header_Generator::set_content_len(err_msg.length())
+    });
+    hresp_p->set_body(err_msg);
+    std::string resp_msg = hresp_p -> to_string();
+    send(fd, resp_msg.c_str(), resp_msg.length(), 0);
   }
 
-  // end tcp
-  // Non-Persistent HTTP
-  delete hresp_p;
   close(fd); 
   return;
 }

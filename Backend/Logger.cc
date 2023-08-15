@@ -41,7 +41,7 @@ Logger::Logger(std::vector<uint8_t>&& widths)
   : max_widths(widths){};
 
 
-void Logger::log(std::vector<std::string>&& field_vals, std::vector<Coloraiton>&& _clrs) {
+void Logger::log(std::vector<std::string>&& field_vals, std::vector<Coloraiton> _clrs) {
   std::string output;
   if(field_vals.size() != this -> max_widths.size()){
     throw std::runtime_error("LOGGER: fileds unmatched error");

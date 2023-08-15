@@ -28,7 +28,7 @@ Service::Service(const CRequest::HTTP_Request& hreq)
 */
 
 
-bool Service::route_match(CRequest::HTTP_Response* hresp_p) {
+bool Service::route_match(CRequest::HTTP_Response*& hresp_p) {
   // auto err_resp_p = new CRequest::HTTP_Response(404, {
   //   CRequest::Header_Generator::set_content_len(0)
   // });
@@ -43,14 +43,31 @@ bool Service::route_match(CRequest::HTTP_Response* hresp_p) {
         CRequest::Header_Generator::set_token("QWEwMjAxMTE="),
         CRequest::Header_Generator::set_content_len(0)
       });
-      Runtime::logger.log({"/login", "200"}, {Runtime::field_clr_200});
+      Runtime::logger.log(
+        {this -> method, "200", "/login"}, Runtime::clr_200);
     }else {
-      Runtime::logger.log({"/login", "404"}, {Runtime::field_clr_404});
-      return false;
+      hresp_p = new CRequest::HTTP_Response(404, {
+        CRequest::Header_Generator::set_content_len(0)
+      });
+      Runtime::logger.log(
+        {this -> method, "404", "/login"}, Runtime::clr_404);
     }
 
   }else if(this -> url == "/getPassages") {
-    Runtime::logger.log({"/getPassages"}, {Runtime::field_clr_200});
+    std::string psg_json_str 
+      = CRequest::Utils::json2str(Runtime::psg_loader.toJson(), false);
+
+    hresp_p = new CRequest::HTTP_Response(200, {
+        CRequest::Header_Generator::set_content_len(psg_json_str.length())
+    });
+
+    hresp_p -> set_body(psg_json_str);
+    Runtime::logger.log(
+      {this -> method, "200", "/getPassages"}, Runtime::clr_200);
+  } else {
+    Runtime::logger.log(
+      {this -> method, "404", this->url}, Runtime::clr_404);
+    return false;
   }
   return true;
 }

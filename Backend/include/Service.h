@@ -10,7 +10,7 @@ public:
   
   Service(const CRequest::HTTP_Request& hr);
   
-  bool route_match(CRequest::HTTP_Response* hresp_p);  
+  bool route_match(CRequest::HTTP_Response*& hresp_p);  
 
   bool authenticate(std::string&);
   

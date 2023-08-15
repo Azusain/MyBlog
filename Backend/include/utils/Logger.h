@@ -37,7 +37,7 @@ class Logger {
 public:
   Logger(std::vector<uint8_t>&& widths);
 
-  void log(std::vector<std::string>&& field_vals, std::vector<Coloraiton>&& _clrs);
+  void log(std::vector<std::string>&& field_vals, std::vector<Coloraiton> _clrs);
 
 private:
   std::string str_align(const std::string& str ,uint8_t max_width);
