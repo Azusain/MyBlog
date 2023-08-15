@@ -9,6 +9,8 @@
 
 struct Passgae {
   std::string title;
+  std::string date;
+  std::string img;
   std::string brief;
 };
 
@@ -17,6 +19,7 @@ struct Column {
   std::string              title;
   std::string              brief;
   std::string              img;
+  std::string              date;
   std::vector<Passgae>     passgaes;
 };
 

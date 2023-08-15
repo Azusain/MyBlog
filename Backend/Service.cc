@@ -26,15 +26,13 @@ Service::Service(const CRequest::HTTP_Request& hreq)
  * rertun true if request route is valid, otherwise
  * return false and the buf will be set to null   
 */
-
-
 bool Service::route_match(CRequest::HTTP_Response*& hresp_p) {
   // auto err_resp_p = new CRequest::HTTP_Response(404, {
   //   CRequest::Header_Generator::set_content_len(0)
   // });
 
   // route match
-  if(this -> url == "/login") {
+  if(this -> url == "/login") {              // /login
     std::string usr = this -> hdr_map["usr"];
     std::string passwd = this -> hdr_map["passwd"];
     
@@ -45,6 +43,7 @@ bool Service::route_match(CRequest::HTTP_Response*& hresp_p) {
       });
       Runtime::logger.log(
         {this -> method, "200", "/login"}, Runtime::clr_200);
+        
     }else {
       hresp_p = new CRequest::HTTP_Response(404, {
         CRequest::Header_Generator::set_content_len(0)
@@ -52,18 +51,32 @@ bool Service::route_match(CRequest::HTTP_Response*& hresp_p) {
       Runtime::logger.log(
         {this -> method, "404", "/login"}, Runtime::clr_404);
     }
+    
+  }else if(this -> route_match(this->url, "/columns")) {   // /columns
+    Json::Value col_json = Runtime::psg_loader.toJson();
+    Json::Value ret_json;
+    std::string real_route 
+      = this -> url.replace(this->url.find("/columns/"), 9, ""); //@todo: dangerous
 
-  }else if(this -> url == "/getPassages") {
-    std::string psg_json_str 
-      = CRequest::Utils::json2str(Runtime::psg_loader.toJson(), false);
+    // @bug: last checkpoint
+    bool found = false;
+    auto cols = col_json["columns"];
+    for(auto it = cols.begin(); it != cols.end(); ++it) {
+      if((*it)["title"] == real_route) {
+        found = true;
+        ret_json = (*it)["title"];   // bug
+        break;
+      }
+    }
 
+    std::string ret_json_str = CRequest::Utils::json2str(ret_json, false);
     hresp_p = new CRequest::HTTP_Response(200, {
-        CRequest::Header_Generator::set_content_len(psg_json_str.length())
+        CRequest::Header_Generator::set_content_len(ret_json_str.length())
     });
+    hresp_p -> set_body(ret_json_str);
 
-    hresp_p -> set_body(psg_json_str);
     Runtime::logger.log(
-      {this -> method, "200", "/getPassages"}, Runtime::clr_200);
+      {this -> method, "200", "/columns"}, Runtime::clr_200);
   } else {
     Runtime::logger.log(
       {this -> method, "404", this->url}, Runtime::clr_404);
@@ -71,6 +84,12 @@ bool Service::route_match(CRequest::HTTP_Response*& hresp_p) {
   }
   return true;
 }
+
+bool Service::route_match(const std::string& full_route, std::string&& route) {
+  return (full_route.find(route) != std::string::npos);
+}
+
+
 
 // by usr and passwd @todo: should be transfered to database
 bool Service::authenticate(std::string& usr, std::string& passwd) {

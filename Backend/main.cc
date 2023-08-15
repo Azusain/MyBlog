@@ -41,15 +41,10 @@
 int main(int, char **) {
   // load passgaes from localfile;
   bool succeed_load = Runtime::psg_loader.load();
-  
  
-  
-  
   Server s(8080);
   s.start();
-  // CRequest::Utils::FileLoader fl("/root/github-repo/MyBlog/Backend");
-  // fl.srch_dir("", true);
-  // Json::Value jv;
+ 
   
   return 0;
 }

@@ -12,6 +12,8 @@ public:
   
   bool route_match(CRequest::HTTP_Response*& hresp_p);  
 
+  bool route_match(const std::string&, std::string&&);
+
   bool authenticate(std::string&);
   
   bool authenticate(std::string&, std::string&);
