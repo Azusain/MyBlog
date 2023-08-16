@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <sys/epoll.h>
 #include <pthread.h>
+#include <arpa/inet.h>
 // C++ std
 #include <memory>
 #include <regex>
@@ -142,23 +143,37 @@ void Server::parser(ssize_t fd) {
   // Deal with request and response
   CRequest::HTTP_Response* hresp_p;
   Service sv(*req_p);
-  
-  if(sv.route_match(hresp_p)) {
-    std::string resp_msg = hresp_p -> to_string();
-    send(fd, resp_msg.c_str(), resp_msg.length(), 0);
-    if(hresp_p != nullptr) {
-      delete hresp_p;
-    }
-  } else {
-    std::string err_msg = "route invalid";
-    hresp_p = new CRequest::HTTP_Response(404, {
-      CRequest::Header_Generator::set_content_len(err_msg.length())
-    });
-    hresp_p->set_body(err_msg);
-    std::string resp_msg = hresp_p -> to_string();
-    send(fd, resp_msg.c_str(), resp_msg.length(), 0);
-  }
+  std::string addr_v4(CRequest::Utils::getConnAddr(fd));
 
+  if(sv.method == "GET") { // GET routers
+    if(sv.route_match(hresp_p, fd)) {     
+      std::string resp_msg = hresp_p -> to_string();
+      send(fd, resp_msg.c_str(), resp_msg.length(), 0);
+    } else {
+      std::string err_msg = "{\"msg\":\"route invalid\"}";
+      hresp_p = new CRequest::HTTP_Response(404, {
+        CRequest::Header_Generator::set_content_len(err_msg.length())
+      });
+      hresp_p -> set_body(err_msg);
+      std::string resp_msg = hresp_p -> to_string();
+      send(fd, resp_msg.c_str(), resp_msg.length(), 0);
+    }
+  } else if(sv.method == "OPTIONS") { // CORS
+    hresp_p = new CRequest::HTTP_Response(200, {
+      CRequest::Header_Generator::set_content_len(0),
+      CRequest::Header_Generator::set_allow_origin("*"),
+      CRequest::Header_Generator::set_allow_methods({"GET", "OPTIONS", "POST"}),
+      CRequest::Header_Generator::set_allow_hdrs({"Content-Length", "Content-Type", "Token"})
+    });
+    Runtime::logger.log(
+      {addr_v4, sv.method, "200", "/"}, Runtime::clr_200);
+  }
+  if(hresp_p != nullptr) {
+    delete hresp_p;
+  }
   close(fd); 
   return;
 }
+
+
+

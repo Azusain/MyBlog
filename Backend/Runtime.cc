@@ -4,10 +4,10 @@
 
 namespace Runtime{
 // init logger
-Log::Logger logger({3, 3, 15});
-Log::Coloraiton field_clr_200{Log::ANSI_TX_WHITE, Log::ANSI_BG_GREEN, 1};
-Log::Coloraiton field_clr_404{Log::ANSI_TX_WHITE, Log::ANSI_BG_RED, 1};
-Log::Coloraiton field_clr_route{Log::ANSI_TX_YELLOW, Log::ANSI_BG_BLACK, 2};
+Log::Logger logger({15, 3, 3, 25});
+Log::Coloraiton field_clr_200{Log::ANSI_TX_WHITE, Log::ANSI_BG_GREEN, 2};
+Log::Coloraiton field_clr_404{Log::ANSI_TX_WHITE, Log::ANSI_BG_RED, 2};
+Log::Coloraiton field_clr_route{Log::ANSI_TX_YELLOW, Log::ANSI_BG_BLACK, 3};
 std::vector<Log::Coloraiton> clr_200 = {Runtime::field_clr_200, Runtime::field_clr_route};
 std::vector<Log::Coloraiton> clr_404 = {Runtime::field_clr_404, Runtime::field_clr_route};
 

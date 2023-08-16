@@ -21,7 +21,6 @@ std::vector<std::string>* split(const std::string& str, const std::string& delim
 
 typedef bool(*FileFilter)(const dirent*);
 
-
 std::string json2str(const Json::Value& v, bool fmt_output);
 
 
@@ -36,7 +35,7 @@ protected:
   std::string rt_pth;
 };
 
-
+std::string getConnAddr(const size_t& fd);
 
 
 

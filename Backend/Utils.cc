@@ -1,5 +1,6 @@
 // unix
 #include <dirent.h>
+#include <arpa/inet.h>
 // C++ std
 #include <memory>
 #include <vector>
@@ -86,6 +87,12 @@ std::vector<std::string> FileLoader::srch_dir(const std::string& rlt_pth,
   return file_pths;
 }
 
+std::string getConnAddr(const size_t& fd) {
+  sockaddr_in addr_v4;
+  socklen_t len = sizeof(addr_v4);
+  getpeername(fd, (sockaddr*)&addr_v4, &len);
+  return std::string(inet_ntoa(addr_v4.sin_addr));
+}
 
 } // namesapce Utils
 

@@ -44,7 +44,6 @@ int main(int, char **) {
  
   Server s(8080);
   s.start();
- 
   
   return 0;
 }

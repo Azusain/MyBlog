@@ -20,8 +20,11 @@ public:
   void start();
 
   static void* reader(void* arg);
-
+ 
   void parser(ssize_t fd);
+
+  
+
 };
 
 #endif

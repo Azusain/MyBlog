@@ -38,7 +38,17 @@ namespace Header_Generator{
   std::string set_content_len(size_t len);
 
   std::string set_token(std::string token);
-  // default: User-Agent, Content-Type, Host
+
+  std::string set_allow_origin(std::string origin);
+
+  std::string set_allow_hdrs(std::vector<std::string> hdrs);
+  
+  std::string set_allow_content_type(std::string origin);
+
+  std::string set_allow_methods(std::vector<std::string> methods);
+
+  std::string set_allow_credentials(std::string origin);
+  // default: User-Agent, Host
 } // namespace Header_Generator
 
 
@@ -64,33 +74,33 @@ protected:
 class HTTP_Response : public HTTP_Message {
 public:
 
-    HTTP_Response(uint16_t stat_code, const std::vector<std::string>& hdr_lns);
-    
-    void set_fst_hdr_ln(uint16_t stat_code, std::string ver);
+  HTTP_Response(uint16_t stat_code, const std::vector<std::string>& hdr_lns);
+  
+  void set_fst_hdr_ln(uint16_t stat_code, std::string ver);
 
-    std::string  to_string();
+  std::string  to_string();
 
-    uint16_t     status_code;
+  uint16_t     status_code;
 private:
-    std::string  version;
+  std::string  version;
 };
 
 
 class HTTP_Request : public HTTP_Message {
 public:
 
-    HTTP_Request();
+  HTTP_Request();
 
-    HTTP_Request(std::string method, std::string url, 
-      const std::vector<std::string>& hdr_lns);
-    
-    void set_fst_hdr_ln(std::string method, std::string url, std::string ver);
+  HTTP_Request(std::string method, std::string url, 
+    const std::vector<std::string>& hdr_lns);
+  
+  void set_fst_hdr_ln(std::string method, std::string url, std::string ver);
 
-    std::string  to_string();
-protected:
-    std::string  method;
-    std::string  url;
-    std::string  version;
+  std::string  to_string();
+
+  std::string  method;
+  std::string  url;
+  std::string  version;
 };
 
 }; // namespace CRequest
