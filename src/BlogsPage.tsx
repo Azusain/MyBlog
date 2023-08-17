@@ -1,3 +1,6 @@
+import React, {useEffect} from 'react'
+
+
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import MainCon from "./components/MainCon";
@@ -9,6 +12,10 @@ import Collapse from "./components/Collapse";
 import './output.css'
 
 const BlogsPage: React.FC = () => {
+    useEffect(() => {
+        alert('Hello')
+    }, [])
+    
     return (        
         <>
             <Header/>
@@ -32,18 +39,8 @@ const BlogsPage: React.FC = () => {
                     <div className="flex flex-col gap-2">
                         <Collapse topic="Computer Science" isCollapsed={true}></Collapse>
                         <Collapse topic="C++ Tricks" isCollapsed={true}></Collapse>
-
-
                     </div>
-                    {/* <div className="flex flex-col gap-2">
-                        <div>  Computer System</div>
-                        <div>  Algorithm</div>
-                        <div>  AI</div>
-                        <div>  Unreal Engine</div>
-                    </div> */}
-
                     
-
                 </div>
  
             </MainCon>

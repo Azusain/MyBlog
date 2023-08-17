@@ -41,9 +41,44 @@
     line-height: 1.5rem;
   }
 
+  label{
+    @apply text-white;
+    font-size: 15px;
+    line-height: 1.5rem;
+  }
+
+  /* for form style*/
+  .form-input {
+    @apply bg-slate-800 border-b-2 p-1 mt-2;
+    @apply border-dotted
+}
+
+  input[type="text"],input[type="email"] {
+    @apply text-gray-400;
+    width: 50%;
+  }
+
+  textarea {
+    @apply text-gray-400;
+    width: 80%;
+    height: 20rem;
+  }
+
+  input,textarea:focus {
+    outline: none;
+  }
+
   .h6_black {
     font-size: 14px;
     line-height: 1.5rem;
+  }
+
+  .info-text div h6, label {
+    display: inline-block
+  }
+  
+  .info-text div label {
+    width: 33%;
   }
 
   .menu-item div {
