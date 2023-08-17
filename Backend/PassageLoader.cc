@@ -41,16 +41,19 @@ bool PassageLoader::load() {
     Column c;
     c.title = dir_name;
     c.brief = lines[0].replace(0, 6, ""); // 'brief:' @todo: maybe optimized with regex
-    c.img =  lines[1].replace(0, 4, "");
+    c.img   = lines[1].replace(0, 4, "");
+    c.date  = lines[2].replace(0, 5, "");
 
-    std::regex r("(\\w+[.]\\w+):(.{0,})"); 
+    std::regex r("(\\w+[.]\\w+):(.{0,}):(.{0,}):(.{0,})"); 
     std::smatch m;
-    std::map<std::string, std::string> file_map;
+    std::map<std::string, Passgae> file_map;
     // retrieve in list, append details to 'this->columns'
-    for (size_t i = 2; i < lines.size(); i++) {
+    for (size_t i = 3; i < lines.size(); i++) {
       std::regex_search(lines[i], m, r);
       if(m.str(1) != ""){
-        file_map[m.str(1)] = m.str(2);
+        file_map[m.str(1)].brief = m.str(2);
+        file_map[m.str(1)].date = m.str(3);
+        file_map[m.str(1)].img = m.str(4);
       }
     }
     
@@ -59,7 +62,10 @@ bool PassageLoader::load() {
     for(auto& p_name: passages) {
       Passgae p;
       p.title = p_name;
-      p.brief = file_map[p_name];
+      auto _p = file_map[p_name];
+      p.brief = _p.brief;
+      p.date = _p.date;
+      p.img = _p.img;
       c.passgaes.push_back(p);
     }
     this -> columns.push_back(c);
@@ -77,10 +83,13 @@ Json::Value PassageLoader::toJson() {
     c_json["title"] = c.title;
     c_json["brief"] = c.brief;
     c_json["img"] = c.img;
+    c_json["date"] = c.date;
     for (auto &p : c.passgaes) {
       Json::Value p_json;
       p_json["title"] = p.title;
       p_json["brief"] = p.brief;
+      p_json["date"] = p.date;
+      p_json["img"] = p.img;
       c_json["passages"].append(p_json);
     }
     rt["columns"].append(c_json);

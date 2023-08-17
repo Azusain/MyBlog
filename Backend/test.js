@@ -4,8 +4,8 @@ const body = 'a'.repeat(1500);
 const options = {
     hostname: 'localhost',
     port: 8080,
-    path: '/getPassages',
-    method: 'OPTIONS',
+    path: '/columns/topic_2',
+    method: 'GET',
     headers: {
         'Content-Length': Buffer.byteLength(body),
         'token': 'QWEwMjAxsMTE=',
