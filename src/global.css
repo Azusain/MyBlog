@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-size: 16px;
+  }
+
   h1 {
     @apply text-5xl;
     font-family: "Open Sans", sans-serif;
@@ -41,7 +45,7 @@
     line-height: 1.5rem;
   }
 
-  label{
+  label {
     @apply text-white;
     font-size: 15px;
     line-height: 1.5rem;
@@ -50,10 +54,11 @@
   /* for form style*/
   .form-input {
     @apply bg-slate-800 border-b-2 p-1 mt-2;
-    @apply border-dotted
-}
+    @apply border-dotted;
+  }
 
-  input[type="text"],input[type="email"] {
+  input[type="text"],
+  input[type="email"] {
     @apply text-gray-400;
     width: 50%;
   }
@@ -64,7 +69,8 @@
     height: 20rem;
   }
 
-  input,textarea:focus {
+  input,
+  textarea:focus {
     outline: none;
   }
 
@@ -73,10 +79,11 @@
     line-height: 1.5rem;
   }
 
-  .info-text div h6, label {
-    display: inline-block
+  .info-text div h6,
+  label {
+    display: inline-block;
   }
-  
+
   .info-text div label {
     width: 33%;
   }
@@ -91,5 +98,14 @@
 
   .canvas div {
     @apply absolute top-0 duration-200;
+  }
+
+  .collapse-item {
+    @apply pl-2 p-1;
+    font-size: 1rem;
+  }
+
+  .collapse-item:hover {
+    text-decoration: underline;
   }
 }

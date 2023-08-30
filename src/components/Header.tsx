@@ -29,10 +29,9 @@ const Header: React.FC = () => {
                 <div className="menu-item col-start-3 col-span-2 flex flex-row gap-3 p-2">
                     {menu_items.map( (menu_item: MenuItem, idx: number) => {
                         return (
-                            <div onClick={() => {navi(menu_item.route)}}>
-                            <h5 
-                                key={idx}
-                            >{menu_item.keyword}</h5></div>
+                            <div key={idx} onClick={() => {navi(menu_item.route)}}>
+                                <h5>{menu_item.keyword}</h5>
+                            </div>
                         )
                     })}
                 </div>
