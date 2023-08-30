@@ -48,6 +48,7 @@ namespace Header_Generator{
   std::string set_allow_methods(std::vector<std::string> methods);
 
   std::string set_allow_credentials(std::string origin);
+
   // default: User-Agent, Host
 } // namespace Header_Generator
 

@@ -4,12 +4,8 @@ const body = 'a'.repeat(1500);
 const options = {
     hostname: 'localhost',
     port: 8080,
-    path: '/columns/topic_2',
-    method: 'GET',
-    headers: {
-        'Content-Length': Buffer.byteLength(body),
-        'token': 'QWEwMjAxsMTE=',
-    }
+    path: '/columns/C++',
+    method: 'POST',
 };
 
 const req = http.request(options, res => {
@@ -29,5 +25,4 @@ req.on('error', error => {
     console.error(error);
 });
 
-req.write(body);
 req.end();

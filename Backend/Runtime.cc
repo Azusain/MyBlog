@@ -11,7 +11,7 @@ Log::Coloraiton field_clr_route{Log::ANSI_TX_YELLOW, Log::ANSI_BG_BLACK, 3};
 std::vector<Log::Coloraiton> clr_200 = {Runtime::field_clr_200, Runtime::field_clr_route};
 std::vector<Log::Coloraiton> clr_404 = {Runtime::field_clr_404, Runtime::field_clr_route};
 
-PassageLoader psg_loader("/root/github-repo/MyBlog/Backend/testdir");
+PassageLoader psg_loader("/root/github-repo/MyBlog/Backend/blog-src");
 
 bool file_filter_dir(const dirent* dir_itor) {
   return (dir_itor -> d_type) == DT_DIR;

@@ -55,7 +55,7 @@ std::string Header_Generator::set_token(std::string token) {
 }
 
 std::string Header_Generator::set_allow_origin(std::string origin) {
-  return fmt::format("Origin:{}", origin);
+  return fmt::format("Access-Control-Allow-Origin:{}", origin);
 }
 
 std::string Header_Generator::set_allow_hdrs(std::vector<std::string> hdrs) {
@@ -118,12 +118,12 @@ HTTP_Request::HTTP_Request(std::string method, std::string url,
 std::string HTTP_Request::to_string() {
     std::string req_msg;
     req_msg.append(
-      fmt::format("{} {} {}\n", this -> method, this -> url, HTTP_VERSION_011)
+      fmt::format("{} {} {}\r\n", this -> method, this -> url, HTTP_VERSION_011)
     );
     for (auto &&header_line : this -> header_lines){
         req_msg.append(header_line + "\r\n");
     }
-    req_msg.append("\r\n\r\n");
+    req_msg.append("\r\n");
     return req_msg.append(this -> body);
 }
 
@@ -133,13 +133,13 @@ std::string HTTP_Request::to_string() {
 
 std::string HTTP_Response::to_string(){
     std::string res_msg;
-    res_msg.append(fmt::format("{} {} {}\n", this -> version, this -> status_code, 
+    res_msg.append(fmt::format("{} {} {}\r\n", this -> version, this -> status_code, 
        STATUS_CODES[this -> status_code]));
 
     for (auto &&header_line : this -> header_lines){
         res_msg.append(header_line + "\r\n");
     }
-    res_msg.append("\r\n\r\n");
+    res_msg.append("\r\n");
     return res_msg.append(this -> body);
 }
 

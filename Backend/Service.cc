@@ -55,26 +55,35 @@ bool Service::route_match(CRequest::HTTP_Response*& hresp_p, ssize_t& fd) {
         {addr_v4, this -> method, "404", "/login"}, Runtime::clr_404);
     }
     
-  }else if(this -> route_match(this->url, "/columns")) {   // /columns
+  } else if(this -> route_match(this->url, "/columns")) {   // /columns
     Json::Value col_json = Runtime::psg_loader.toJson();
+    Json::Value cols = col_json["columns"];
     Json::Value ret_json;
-    std::string real_route 
-      = this -> url.replace(this->url.find("/columns/"), 9, ""); //@todo: dangerous
+    std::string real_route; 
+    
 
-    // @bug: last checkpoint
-    bool found = false;
-    auto cols = col_json["columns"];
-    for(int i = 0; i < cols.size(); ++i) {
-      if(cols[i]["title"].asString() == real_route) {
-        found = true;
-        ret_json = cols[i];   
-        break;
+    if(this -> url == "/columns") {     // get all
+      real_route = "*";
+      for(int i = 0; i < cols.size(); ++i) {
+        ret_json["columns"].append(cols[i]["title"]);
+      }
+    }else { // get msg by endpoint
+      real_route = this -> url.replace(this->url.find("/columns/"), 9, ""); //@todo: dangerous
+      bool found = false;
+      for(int i = 0; i < cols.size(); ++i) {
+        if(cols[i]["title"].asString() == real_route) {
+          found = true;
+          ret_json = cols[i];   
+          break;
+        }
       }
     }
-
     std::string ret_json_str = CRequest::Utils::json2str(ret_json, false);
     hresp_p = new CRequest::HTTP_Response(200, {
-        CRequest::Header_Generator::set_content_len(ret_json_str.length())
+      CRequest::Header_Generator::set_content_len(ret_json_str.length()),
+      CRequest::Header_Generator::set_content_type(CRequest::TYPE_APP_JSON),
+      CRequest::Header_Generator::set_connection(false),
+      CRequest::Header_Generator::set_allow_origin("*")
     });
     hresp_p -> set_body(ret_json_str);
 

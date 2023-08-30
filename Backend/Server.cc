@@ -145,7 +145,7 @@ void Server::parser(ssize_t fd) {
   Service sv(*req_p);
   std::string addr_v4(CRequest::Utils::getConnAddr(fd));
 
-  if(sv.method == "GET") { // GET routers
+  if(sv.method == "POST") { // GET routers
     if(sv.route_match(hresp_p, fd)) {     
       std::string resp_msg = hresp_p -> to_string();
       send(fd, resp_msg.c_str(), resp_msg.length(), 0);
@@ -167,6 +167,10 @@ void Server::parser(ssize_t fd) {
     });
     Runtime::logger.log(
       {addr_v4, sv.method, "200", "/"}, Runtime::clr_200);
+  } else if(sv.method == "GET") {
+    hresp_p = new CRequest::HTTP_Response(200, {});
+    Runtime::logger.log(
+      {addr_v4, sv.method, "404", "/invalid"}, Runtime::clr_404);
   }
   if(hresp_p != nullptr) {
     delete hresp_p;
