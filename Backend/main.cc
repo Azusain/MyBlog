@@ -32,12 +32,8 @@
 #include "Runtime.h"
 
 
-
-
-
 // @todo: needs exception handler
-// @todo：lots of funcs need RVO 
-// @todo: getpeername()
+// @todo: regex wrapper
 int main(int, char **) {
   // load passgaes from localfile;
   bool succeed_load = Runtime::psg_loader.load();

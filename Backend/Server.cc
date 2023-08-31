@@ -58,7 +58,6 @@ void Server::start() {
   // pthread_join(serv_th, NULL);
 }
 
-
 void* Server::reader(void* arg) {
   Server* serv_p = (Server*)arg;
   const uint8_t EVENT_BUF_SZ = 10;
@@ -72,7 +71,6 @@ void* Server::reader(void* arg) {
   }
   return nullptr;  
 }
-
 
 void Server::parser(ssize_t fd) {
   // sleep(1);
