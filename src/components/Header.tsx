@@ -1,6 +1,5 @@
 import React from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { hover } from '@testing-library/user-event/dist/hover';
+import { useNavigate } from 'react-router-dom';
 
 // Bind name of each menubar item to a route 
 class MenuItem {

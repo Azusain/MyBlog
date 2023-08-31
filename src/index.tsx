@@ -7,7 +7,6 @@ import {
     RouterProvider
 } from 'react-router-dom';
 
-
 // customized components
 import Header from './components/Header';
 import Display from './components/Display';
@@ -18,6 +17,7 @@ import Footer from './components/Footer';
 // Pages
 import BlogsPage from './BlogsPage';
 import ContactPage from './ContactPage';
+import PassagePage from './PassagePage';
 
 const HomePage: React.FC = () => {
     return (
@@ -32,21 +32,20 @@ const HomePage: React.FC = () => {
 }
 
 // Global router
-const router = createBrowserRouter([
-    {
+const router = createBrowserRouter([{
         path: "/",
         element: <HomePage/>,
-    },
-    {
+    }, {
         path: "/blogs",
         element: <BlogsPage/>,
-    },
-    {
+    }, {
         path: "/contact",
         element: <ContactPage/>,
+    }, {
+        path: "/passage",
+        element: <PassagePage/>
     }
 ]);
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 //   <React.StrictMode>

@@ -1,20 +1,18 @@
-import {useState} from 'react'
- import { backend_addr_4 } from '../BlogsPage';
+import { useState } from 'react'
+import { BlogTopicItemInterface } from './ImageWithDetails';
+import { getTopicData } from '../api/passages';
 
 interface CollapseInterface{
     topic: string;
-    columns: Array<string>           // @todo: What's the type of that 'data'?
+    columns: Array<string>         
     isCollapsed: boolean;
     children?: React.ReactNode;
-    handler: (data: any) => void
+    handler: (data: BlogTopicItemInterface) => void
 }
 
-
 // @todo: why is this component rendered twice?
+// @todo: optimized the codes down below
 const Collapse: React.FC<CollapseInterface> = (props) => {
-    
-   
-
     const [activated, setActivated] = useState(false);
 
     function expandMenu(){
@@ -33,15 +31,7 @@ const Collapse: React.FC<CollapseInterface> = (props) => {
                             onClick={(e) => {
                                 e.stopPropagation()
                                 // get api data
-                                fetch(
-                                    `${backend_addr_4}/columns/${val}`, {
-                                        method:"POST",
-                                    }
-                                )
-                                .then((resp) => resp.json())
-                                .then((json) => {
-                                    props.handler(json)
-                                })
+                                getTopicData(props.handler, val)
                             }}
                         >
                             {val}

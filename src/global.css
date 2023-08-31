@@ -108,4 +108,20 @@
   .collapse-item:hover {
     text-decoration: underline;
   }
+
+  .blog-item-title > u {
+    text-decoration: none;
+  }
+
+  .blog-item-title:hover {
+    @apply text-blue-950 cursor-pointer;
+  }
+
+  .sidebar-item {
+    @apply p-2 pl-4;
+  }
+
+  .sidebar-item:hover {
+    @apply cursor-pointer text-gray-300;
+  }
 }

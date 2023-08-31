@@ -1,6 +1,7 @@
 import React from 'react'
 import GuraButton from './GuraButton';
 import img0 from '../img/blog-1.jpg'
+import { useNavigate } from 'react-router-dom';
 
 
 interface PassageStatusLineInterface {
@@ -11,98 +12,90 @@ interface PassageStatusLineInterface {
 }
 
 interface BlogItemInterface {
-    isNews: boolean
-    url?: string
+    hasImage: boolean
+    img?: string
+    brief: string
+    date?: string
+    title: string
+    topic?: string
 }
 
+interface BlogTopicItemInterface extends BlogItemInterface {
+    passages?: Array<BlogItemInterface>
+}
 
 const ImageWithDetails: React.FC = () => {
     return (
         <div>
             <h3>Design</h3>
             <img alt='' src={img0} className='shadow-lg'></img>
-            <PassageStatusLine></PassageStatusLine>
+            <PassageStatusLine />
             <h6>descriptions...</h6>
-            <GuraButton text='Read More'/>
+            <GuraButton text='Read More' />
         </div>
     )
 }
 
-
-const BlogItem: React.FC<BlogItemInterface> = (props) => {
+const BlogTopicItem: React.FC<BlogTopicItemInterface> = (props) => {
     return (
         <div>
             <div className='flex flex-col gap-2 p-2'>
-                <h3><u>Linear Algerbra Startup</u></h3>
-
-                <PassageStatusLine/>
-                
-                <img 
-                    alt='' 
-                    src={img0} 
-                    className={props.isNews? '' : 'hidden'}
+                <h3><u>{props.title}</u></h3>
+                <PassageStatusLine date={props.date} />
+                <img
+                    alt=''
+                    src={img0}
+                    className={props.hasImage ? '' : 'hidden'}
                 >
                 </img>
-                <h6>Linear algebra is central to almost all areas of mathematics. For instance, linear algebra 
-                    is fundamental in modern presentations of geometry, including for defining basic objects such as 
-                    lines, planes and rotations</h6>
-                <div className={props.isNews? '' : 'hidden'}>
-                    <GuraButton text='Read More'/>    
+                <h6>{props.brief}</h6>
+                <div className={props.hasImage ? '' : 'hidden'}>
+                    {props.passages && (<GuraButton text='Read More' />)}
                 </div>
             </div>
         </div>
     )
 }
 
-const BlogItemBeta: React.FC<BlogItemInterface> = (props) => {
+const BlogItem: React.FC<BlogItemInterface> = (props) => {
+    let navi = useNavigate()
     return (
         <div>
             <div className='flex flex-row gap-2'>
-                
                 <div className='basis-2/5 pt-[1.15rem]'>
-                    <img 
-                        alt='' 
-                        src={img0} 
-                        className={props.isNews? '' : 'hidden' + ' shadow-lg'}
+                    <img
+                        alt=''
+                        src={img0}
+                        className={`${props.hasImage ?  '': 'hidden'} shadow-lg`}
                     >
-                    </img>    
+                    </img>
                 </div>
-                    
-                     
-
-
                 <div className='basis-3/5 flex flex-col gap-2 p-2'>
-                    <h3><u>Linear Algerbra Startup</u></h3>
-
-                    <PassageStatusLine/>
-                    
-                    <h6>Linear algebra is central to almost all areas of mathematics. For instance, linear algebra 
-                        is fundamental in modern presentations of geometry, including for defining basic objects such as 
-                        lines, planes and rotations</h6>
+                    <h3
+                        className="blog-item-title"
+                        onClick={() => {
+                            navi(`/passage?topic=${props.topic}&title=${props.title}`)
+                        }}
+                    ><u>{props.title.replace(".html", "").replaceAll("-", " ").replaceAll("_", "-")}</u></h3>
+                    <PassageStatusLine date={props.date} />
+                    <h6>{props.brief}</h6>
                 </div>
-
             </div>
         </div>
     )
 }
-
-
-
 
 const PassageStatusLine: React.FC<PassageStatusLineInterface> = (props) => {
     return (
         <div className="flex flex-row w-full justify-between">
             <div className="flex flex-row gap-2">
-                <div>2020-1-21</div>
+                <div>{props.date ? props.date : "2023/8/31"}</div>
                 <div className='text-gura_main'>Admin</div>
             </div>
-
         </div>
     )
 }
 
-
-
-
 export default ImageWithDetails;
-export {PassageStatusLine, BlogItem, BlogItemBeta};
+export { PassageStatusLine, BlogTopicItem, BlogItem };
+export type { BlogItemInterface, BlogTopicItemInterface }
