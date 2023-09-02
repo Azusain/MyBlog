@@ -13,7 +13,7 @@ interface CollapseInterface{
 // @todo: why is this component rendered twice?
 // @todo: optimized the codes down below
 const Collapse: React.FC<CollapseInterface> = (props) => {
-    const [activated, setActivated] = useState(false);
+    const [activated, setActivated] = useState(true);
 
     function expandMenu(){
         setActivated(activated ? false : true)
@@ -27,7 +27,7 @@ const Collapse: React.FC<CollapseInterface> = (props) => {
                     return (
                         <div 
                             key={idx} 
-                            className={(activated? '': 'hidden') + ' collapse-item'}
+                            className={`${(activated? '': 'hidden')} collapse-item`}
                             onClick={(e) => {
                                 e.stopPropagation()
                                 // get api data

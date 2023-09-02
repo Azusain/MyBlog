@@ -2,7 +2,7 @@
 import Footer from "./components/Footer"
 import GuraButton from "./components/GuraButton"
 import Header from "./components/Header"
-import img0 from './img/blog-1.jpg'
+import img0 from './img/map.jpg'
 
 
 const ContactPage: React.FC = () => {

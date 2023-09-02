@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // customized component
 import GuraButton from './GuraButton';
-import img0 from '../img/blog-1.jpg'
+import img0 from '../img/map.jpg'
 import { useNavigate } from 'react-router-dom';
 import { getTopicData } from '../api/passages';
 import src_rt_path from '../api/media';
@@ -85,13 +85,13 @@ const BlogTopicItem: React.FC<BlogTopicItemInterface> = (props) => {
                 <img
                     alt=''
                     src={`${src_rt_path}/${props.title}/${props.title}.png`}
-                    className="w-[38rem] h-[19rem]"
+                    className={`w-[38rem] h-[19rem] ${props.hasImage ? '' : 'hidden'}`}
                 >
                 </img>
                 <h6 className="w-[38rem]">{props.brief}</h6>
-                <div className={props.hasImage ? '' : 'hidden'}>
+                <div>
                     <GuraButton text='Read More' onClick={() => {
-                        alert('nothing happens')
+                        alert('戳文章标题别戳我')
                     }} />
                 </div>
             </div>
@@ -104,14 +104,16 @@ const BlogItem: React.FC<BlogItemInterface> = (props) => {
     return (
         <div>
             <div className='flex flex-row gap-2'>
-                <div className='basis-2/5 pt-[1.15rem]'>
-                    <img
-                        alt=''
-                        src={img0}
-                        className={`${props.hasImage ?  '': 'hidden'} shadow-lg`}
-                    >
-                    </img>
-                </div>
+                {props.hasImage && (
+                    <div className='basis-2/5 pt-[1.15rem]'>
+                        <img
+                            alt=''
+                            src={img0}
+                            className={`shadow-lg`}
+                        >
+                        </img>
+                    </div>
+                )}
                 <div className='basis-3/5 flex flex-col gap-2 p-2'>
                     <h3
                         className="blog-item-title"

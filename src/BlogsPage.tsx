@@ -54,7 +54,7 @@ const BlogsPage: React.FC = () => {
                         {topicData && (topicData.passages!.map((val, idx) => {
                             return (<BlogItem
                                 key={idx}
-                                hasImage={true}
+                                hasImage={false}
                                 title={val.title}
                                 brief={val.brief}
                                 date={val.date}
@@ -78,7 +78,6 @@ const BlogsPage: React.FC = () => {
                     </div>
                 </div>
             </MainCon>
-
             <Footer></Footer>
         </>
     )

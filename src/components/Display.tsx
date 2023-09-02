@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 
 // images
 /* codes for importing images should be simplified here!!! */
-import img1 from "../img/slide-1.jpg"
-import img2 from "../img/slide-2.jpg"
-import img3 from "../img/slide-3.jpg"
-import img4 from "../img/slide-4.jpg"
-import img5 from "../img/slide-5.jpg"
+import img1 from "../img/slide-1.png"
+import img2 from "../img/slide-2.png"
+import img3 from "../img/slide-3.png"
+import img4 from "../img/slide-4.png"
+import img5 from "../img/slide-5.png"
 
 
 const Display: React.FC = () => {
@@ -32,7 +32,7 @@ const Display: React.FC = () => {
 
     function mouseLeaveHandler(event: React.MouseEvent) {
         const elem = event.currentTarget as HTMLElement
-        elem.style.filter = "brightness(60%)"
+        elem.style.filter = "brightness(40%)"
         setPositios(init_pos)
     }
 
@@ -60,7 +60,7 @@ const Display: React.FC = () => {
                                 style={{
                                     width:"100%", 
                                     height:"90%", 
-                                    filter: "brightness(60%)",
+                                    filter: "brightness(40%)",
                                     cursor: "pointer"
                                 }}
                                 src={images[index]} 

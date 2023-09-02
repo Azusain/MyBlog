@@ -124,4 +124,9 @@
   .sidebar-item:hover {
     @apply cursor-pointer text-gray-300;
   }
+
+  .mx-works:hover {
+    @apply cursor-pointer;
+    filter: brightness(50%);
+  }
 }
