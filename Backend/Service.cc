@@ -7,11 +7,8 @@
 #include "Service.h"
 #include "Runtime.h"
 
-
 Service::Service()
   :CRequest::HTTP_Request() {}
-
-
 
 Service::Service(const CRequest::HTTP_Request& hreq)
   :CRequest::HTTP_Request(hreq) {
@@ -22,7 +19,6 @@ Service::Service(const CRequest::HTTP_Request& hreq)
       this -> hdr_map[m.str(1)] =  m.str(2);
     }
   }
-
 
 /**
  * rertun true if request route is valid, otherwise
@@ -78,6 +74,7 @@ bool Service::route_match(CRequest::HTTP_Response*& hresp_p, ssize_t& fd) {
         }
       }
     }
+
     std::string ret_json_str = CRequest::Utils::json2str(ret_json, false);
     hresp_p = new CRequest::HTTP_Response(200, {
       CRequest::Header_Generator::set_content_len(ret_json_str.length()),

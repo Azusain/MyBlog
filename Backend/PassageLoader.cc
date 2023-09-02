@@ -18,9 +18,9 @@ PassageLoader::PassageLoader(const std::string&& base_path)
 bool PassageLoader::load() {
   std::vector<std::string> dirs(
     this -> srch_dir("", Runtime::file_filter_dir, false));
-  char rd_buf[500];   // may define a constant for '500' @todo
-  for(auto& dir_name : dirs) {
-    // read from description in each dir
+  char rd_buf[500];   // @todo: define a constant for '500' here 
+  for(std::string& dir_name : dirs) {
+    // read from description file in each dir
     int fd = open(fmt::format("{}/{}/brief", 
       this->rt_pth, dir_name).c_str(), O_RDONLY);
     if(fd == -1){
@@ -57,9 +57,18 @@ bool PassageLoader::load() {
       }
     }
     
+    // collect passages from each directory
     auto passages(this -> srch_dir(fmt::format("/{}", dir_name),
        Runtime::file_filter_file, false));
+    // leave out images files such as .png .jpg and .gif
+    std::regex img_rgx("[.]{0,}.(png|jpg)");
+    std::smatch img_m;
+
     for(auto& p_name: passages) {
+      std::regex_search(p_name, img_m, img_rgx);
+      if(img_m.str(0) != "") {
+        continue;
+      }
       Passgae p;
       p.title = p_name;
       auto _p = file_map[p_name];
@@ -73,12 +82,10 @@ bool PassageLoader::load() {
   return true;
 }
 
-// @todo
 Json::Value PassageLoader::toJson() {
   Json::Value rt;
   rt["columns"] = Json::arrayValue;
   for(auto& c : this->columns) {
-    
     Json::Value c_json;
     c_json["title"] = c.title;
     c_json["brief"] = c.brief;
