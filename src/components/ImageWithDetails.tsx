@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+// customized component
 import GuraButton from './GuraButton';
 import img0 from '../img/blog-1.jpg'
 import { useNavigate } from 'react-router-dom';
+import { getTopicData } from '../api/passages';
+import src_rt_path from '../api/media';
 
+interface ImageWithDetailsInterface {
+    topic: string
+}
 
 interface PassageStatusLineInterface {
     owner?: string;
@@ -24,16 +30,50 @@ interface BlogTopicItemInterface extends BlogItemInterface {
     passages?: Array<BlogItemInterface>
 }
 
-const ImageWithDetails: React.FC = () => {
-    return (
-        <div>
-            <h3>Design</h3>
-            <img alt='' src={img0} className='shadow-lg'></img>
-            <PassageStatusLine />
-            <h6>descriptions...</h6>
-            <GuraButton text='Read More' />
-        </div>
-    )
+// @todo: customized size!!!!
+const ImageWithDetails: React.FC<ImageWithDetailsInterface> = (props) => {
+    const [topicData, setTopicData] = useState<BlogTopicItemInterface>()
+    let navi = useNavigate()
+
+    function afterFetch(data: BlogTopicItemInterface) { // call back func for fetch api 
+        setTopicData(data)
+    }
+
+    // check session storage before deciding to fetch data from server
+    var topicDataLocal = sessionStorage.getItem(props.topic)
+    var topicDataObj: BlogTopicItemInterface = {
+        hasImage: false,
+        brief: "",
+        title: "",
+    };
+    if(!topicDataLocal) {
+        getTopicData(afterFetch, props.topic)
+    } else {
+        topicDataObj = JSON.parse(topicDataLocal)
+    }
+
+    // @todo: wrap string with css
+    if(topicDataObj) {
+        return (
+            <div>
+                <h3>{topicDataObj.title}</h3>
+                <div className='p-2'>
+                    <img 
+                        alt='' 
+                        src={`${src_rt_path}/${props.topic}/${props.topic}.png`} 
+                        className='shadow-lg mb-2 w-64 h-36'
+                    ></img>
+                    <PassageStatusLine date={topicDataObj.date} />
+                    <h6 className='h-20 w-64'>{`${topicDataObj.brief.substring(0, 100)} ...`}</h6>      
+                    <GuraButton text='Read More' onClick={() => {
+                        navi(`/blogs?topic=${topicDataObj.title}`)
+                    }} />
+                </div>
+            </div>
+        )
+    } else {
+        return (<></>)
+    }
 }
 
 const BlogTopicItem: React.FC<BlogTopicItemInterface> = (props) => {
@@ -44,13 +84,15 @@ const BlogTopicItem: React.FC<BlogTopicItemInterface> = (props) => {
                 <PassageStatusLine date={props.date} />
                 <img
                     alt=''
-                    src={img0}
-                    className={props.hasImage ? '' : 'hidden'}
+                    src={`${src_rt_path}/${props.title}/${props.title}.png`}
+                    className="w-[38rem] h-[19rem]"
                 >
                 </img>
-                <h6>{props.brief}</h6>
+                <h6 className="w-[38rem]">{props.brief}</h6>
                 <div className={props.hasImage ? '' : 'hidden'}>
-                    {props.passages && (<GuraButton text='Read More' />)}
+                    <GuraButton text='Read More' onClick={() => {
+                        alert('nothing happens')
+                    }} />
                 </div>
             </div>
         </div>

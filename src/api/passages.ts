@@ -2,20 +2,25 @@ import { BlogItemInterface, BlogTopicItemInterface } from "../components/ImageWi
 
 var backend_addr_4 = "http://localhost:5001"
 
-function getColumns(setState: React.Dispatch<React.SetStateAction<string[]>>)
-: void {
-    fetch(
+async function getColumns(setState: React.Dispatch<React.SetStateAction<string[]>>)
+: Promise<any> {
+    var tmp_arr: Array<string> = []
+    await fetch(
         `${backend_addr_4}/columns`, {
         method: "POST",
     }
     )
     .then((resp) => resp.json())
     .then((json) => {
-        var tmp_arr = []
+        
         for (let i = 0; i < json["columns"].length; ++i) {
             tmp_arr.push(json["columns"][i])
         }
+        sessionStorage.setItem("columns", JSON.stringify(json["columns"]))
         setState(tmp_arr)
+    })
+    return new Promise<Array<string>>((res) => {
+        res(tmp_arr)
     })
 }
 

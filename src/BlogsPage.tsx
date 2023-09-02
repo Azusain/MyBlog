@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 // customized components
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -7,19 +8,32 @@ import SearchBar from "./components/SearchBar";
 import { BlogTopicItem, BlogItem } from "./components/ImageWithDetails";
 import Collapse from "./components/Collapse";
 import { BlogTopicItemInterface } from "./components/ImageWithDetails";
-import getColumns from "./api/passages";
+import getColumns, { getTopicData } from "./api/passages";
 //  style sheet
 import './output.css'
 const BlogsPage: React.FC = () => {
     const [columns, setColumns] = useState<string[]>([]);
     const [topicData, setTopicData] = useState<BlogTopicItemInterface>()
+    const [params, setParams] = useSearchParams()
 
-    function passagesHandller(data: BlogTopicItemInterface) { // any, in typescript?
+    function passagesHandller(data: BlogTopicItemInterface) {   // @todo: callback funcs here might be refactored
+        setTopicData(data)
+    }
+
+    function initHandler(data: BlogTopicItemInterface) {
         setTopicData(data)
     }
 
     useEffect(() => {
-        getColumns(setColumns);
+        getColumns(setColumns).then((arr) => {
+            let topic = params.get("topic")
+            // set topic to the first column
+            if(!topic) {
+                getTopicData(initHandler, arr[0])
+            } else {
+                getTopicData(initHandler, topic)
+            }
+        })
     }, [])
 
     return (
@@ -28,15 +42,6 @@ const BlogsPage: React.FC = () => {
             <MainCon width="46%" height="80rem" inner_layout="flex flex-row gap-8">
                 <div className="basis-2/3 w-full">
                     <div className="flex flex-col divide-y gap-4">
-                        {!topicData && (
-                            <BlogTopicItem
-                                hasImage={true}
-                                title={"Welcome to My Blog!"}
-                                brief={"head to Categories on the right side"}
-                                date={"2023-8-31"}
-                            ></BlogTopicItem>
-                        )
-                        }
                         {topicData && (
                             <BlogTopicItem
                                 hasImage={true}
@@ -58,7 +63,6 @@ const BlogsPage: React.FC = () => {
                         }))}
                     </div>
                 </div>
-
                 <div className="basis-1/3 h-[30rem] flex flex-col gap-4 mt-4 ml-20">
                     <h3 className="font-bold">Search</h3>
                     <SearchBar></SearchBar>

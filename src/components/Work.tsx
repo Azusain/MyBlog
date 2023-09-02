@@ -19,7 +19,7 @@ const Work: React.FC = () => {
 
 
     return (
-        <div className='my-8'>
+        <div className='mb-8'>
             <div className="my-8">
                 <MainCon width='46%' height='38rem' inner_layout='flex flex-col'>
                     <h2>Mixng & Composing</h2>

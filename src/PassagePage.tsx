@@ -21,14 +21,12 @@ const PassagePage: React.FC = () => {
                 <iframe 
                     title="passage"
                     className="w-full basis-5/6"
-                    height="1000px"
+                    height="1560px"
                     src={`${src_rt_path}/${cur_topic}/${cur_psg}`}
                     // scrolling="no" // @todo: scrolling?
                 >
                 </iframe>
             </div>
-
-            <Footer/>
         </div>
     )
 }
