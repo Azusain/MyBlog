@@ -12,7 +12,6 @@ async function getColumns(setState: React.Dispatch<React.SetStateAction<string[]
     )
     .then((resp) => resp.json())
     .then((json) => {
-        
         for (let i = 0; i < json["columns"].length; ++i) {
             tmp_arr.push(json["columns"][i])
         }

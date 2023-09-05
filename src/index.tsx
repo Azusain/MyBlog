@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 // Official React-Router APIs has been updated
 // deprecented APIs are listed in: https://reactrouter.com/en/main/routers/picking-a-router
 import {
-    createBrowserRouter, 
+    createHashRouter, 
     RouterProvider
 } from 'react-router-dom';
 
@@ -32,7 +32,7 @@ const HomePage: React.FC = () => {
 }
 
 // Global router
-const router = createBrowserRouter([{
+const router = createHashRouter([{
         path: "/",
         element: <HomePage/>,
     }, {
