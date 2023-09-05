@@ -1,7 +1,7 @@
 # MyBlog
 Come and Visit mty website! http://azusaing.top
 
-<img alt="" src="./demo.png"></img>
+![MyBlog](./demo.png)
 
 ## Frontend
 - **React**, **tailwindcss**, **typescript**
