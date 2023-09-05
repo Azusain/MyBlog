@@ -1,6 +1,8 @@
 # MyBlog
 code of my personal website
 
+<img alt="" src="./demo.png">
+
 ## Frontend
 - **React**, **tailwindcss**, **typescript**
 
