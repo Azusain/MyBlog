@@ -99,7 +99,6 @@ void HTTP_Message::add_hdr_ln(std::string hdr_ln) {
   return;
 }
 
-
 HTTP_Request::HTTP_Request(){}
 
 HTTP_Request::HTTP_Request(std::string method, std::string url,
@@ -113,7 +112,6 @@ HTTP_Request::HTTP_Request(std::string method, std::string url,
       throw std::runtime_error("method invaild");
     }
   }
-
 
 std::string HTTP_Request::to_string() {
     std::string req_msg;

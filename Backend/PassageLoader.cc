@@ -61,12 +61,12 @@ bool PassageLoader::load() {
     auto passages(this -> srch_dir(fmt::format("/{}", dir_name),
        Runtime::file_filter_file, false));
     // leave out images files such as .png .jpg and .gif
-    std::regex img_rgx("[.]{0,}.(png|jpg)");
+    std::regex img_rgx("[.]{0,}.(html)");
     std::smatch img_m;
 
     for(auto& p_name: passages) {
       std::regex_search(p_name, img_m, img_rgx);
-      if(img_m.str(0) != "") {
+      if(img_m.str(0) == "") {
         continue;
       }
       Passgae p;

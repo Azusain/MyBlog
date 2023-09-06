@@ -24,7 +24,6 @@
 // jsoncpp lib
 #include <json/value.h>
 
-
 #include "Logger.h"
 #include "Server.h"
 #include "CRequest.h"
