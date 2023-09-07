@@ -7,7 +7,7 @@
 #include <memory>
 #include <regex>
 #include <sstream>
-// IO
+// std lib <format> in C++ 20
 #include <fmt/core.h>
 // proj files
 #include "Server.h"
@@ -27,7 +27,6 @@ Server::Server(uint16_t port)
 }
 
 void Server::start() {
-  
   fmt::println("Server runs on {}", this -> PORT);
   
   // init acceptor
@@ -42,8 +41,9 @@ void Server::start() {
   pthread_create(&serv_th, nullptr, this -> reader, (void*)this);
 
   while (true) {
-    ssize_t new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
     
+    ssize_t new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
+    fmt::println("accept new connection");
     if(new_socket < 0){
       perror("err accepting socket\n");
       continue;
@@ -73,6 +73,7 @@ void* Server::reader(void* arg) {
 }
 
 void Server::parser(ssize_t fd) {
+  fmt::println("parse msg...");
   // sleep(1);
   char buffer[this -> BUFFER_SIZE] = {0}; // buffer for reading from socket buf @todo: cant be compiled by clang 14
   std::string msg_buf; // buffer for structuring data
@@ -86,8 +87,14 @@ void Server::parser(ssize_t fd) {
 
   while(1) {      
     ssize_t len_read = read(fd, buffer, this -> BUFFER_SIZE);
+    if(len_read > 0) {
+      msg_buf.append(buffer);
+      hdr_end = std::regex_search(buffer, res, hdr_div);
+    } else if (!hdr_end && len_read <= 0) {    // no responses fo http messages with invalid format
+      close(fd);
+      return;
+    }
 
-    hdr_end = std::regex_search(buffer, res, hdr_div);
     if(hdr_end) {
       const std::string full_hdr(msg_buf + res.prefix().str());
       std::regex find_len("Content-Length:[ ]{0,}(\\d+)");
@@ -116,9 +123,6 @@ void Server::parser(ssize_t fd) {
       }
       break;
     }
-    if(len_read > 0) {
-      msg_buf.append(buffer);
-    }
   }
   
   // deal with body
@@ -139,6 +143,7 @@ void Server::parser(ssize_t fd) {
   }
 
   // Deal with request and response
+  // @todo: request could be cached in a temporary queue 
   CRequest::HTTP_Response* hresp_p;
   Service sv(*req_p);
   std::string addr_v4(CRequest::Utils::getConnAddr(fd));
@@ -166,7 +171,7 @@ void Server::parser(ssize_t fd) {
     Runtime::logger.log(
       {addr_v4, sv.method, "200", "/"}, Runtime::clr_200);
   } else if(sv.method == "GET") {
-    hresp_p = new CRequest::HTTP_Response(200, {});
+    hresp_p = new CRequest::HTTP_Response(404, {});
     Runtime::logger.log(
       {addr_v4, sv.method, "404", "/invalid"}, Runtime::clr_404);
   }
