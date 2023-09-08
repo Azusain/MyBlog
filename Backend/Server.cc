@@ -66,7 +66,11 @@ void* Server::reader(void* arg) {
   while (1) {
     int fd_n = epoll_wait(serv_p -> epoll_fd, evs, EVENT_BUF_SZ, -1);
     for(size_t i = 0; i < fd_n; ++i) {
-      serv_p -> parser(evs[i].data.fd);
+      if (evs[i].events & EPOLLIN) {
+        serv_p -> parser(evs[i].data.fd);
+      } else if (evs[i].events & EPOLLHUP) {    
+          close(evs[i].data.fd);
+      }
     }
   }
   return nullptr;  
@@ -74,7 +78,7 @@ void* Server::reader(void* arg) {
 
 void Server::parser(ssize_t fd) {
   fmt::println("parse msg...");
-  // sleep(1);
+
   char buffer[this -> BUFFER_SIZE] = {0}; // buffer for reading from socket buf @todo: cant be compiled by clang 14
   std::string msg_buf; // buffer for structuring data
   std::unique_ptr<CRequest::HTTP_Request> req_p(new CRequest::HTTP_Request);
@@ -85,12 +89,21 @@ void Server::parser(ssize_t fd) {
   size_t req_msg_len = 0;
   bool hdr_end = false;     
 
+  // timeout handler
+  struct timeval timeout;
+  timeout.tv_sec = 3;
+  timeout.tv_usec = 0;
+  socklen_t timeout_len = sizeof(timeout);
+  setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, timeout_len);
+
+  // io
   while(1) {      
-    ssize_t len_read = read(fd, buffer, this -> BUFFER_SIZE);
+    ssize_t len_read = recv(fd, buffer, this -> BUFFER_SIZE, 0);
     if(len_read > 0) {
       msg_buf.append(buffer);
       hdr_end = std::regex_search(buffer, res, hdr_div);
     } else if (!hdr_end && len_read <= 0) {    // no responses fo http messages with invalid format
+      fmt::println("kill connection...");
       close(fd);
       return;
     }
