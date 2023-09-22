@@ -6,6 +6,15 @@
 #include <netinet/in.h>
 #include <unistd.h>
 
+#include "Service.h"
+
+class Server;
+
+struct ParserAdaptorStruct {
+  int fd;
+  Server* serv_p;
+};
+
 
 class Server{
 public:
@@ -23,8 +32,7 @@ public:
  
   void parser(ssize_t fd);
 
-  
-
+  static void* parserAdaptor(void* arg);
 };
 
 #endif

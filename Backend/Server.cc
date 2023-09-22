@@ -42,7 +42,7 @@ void Server::start() {
 
   while (true) {
     
-    ssize_t new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
+    ssize_t new_socket = accept(server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen);
     fmt::println("accept new connection");
     if(new_socket < 0){
       perror("err accepting socket\n");
@@ -67,7 +67,15 @@ void* Server::reader(void* arg) {
     int fd_n = epoll_wait(serv_p -> epoll_fd, evs, EVENT_BUF_SZ, -1);
     for(size_t i = 0; i < fd_n; ++i) {
       if (evs[i].events & EPOLLIN) {
-        serv_p -> parser(evs[i].data.fd);
+        // parameters
+        struct ParserAdaptorStruct pas = {
+          evs[i].data.fd, 
+          serv_p
+        };
+        // new thread for each connection
+        pthread_t thd;
+        pthread_create(&thd, nullptr, Server::parserAdaptor, (void*)&pas);
+        // serv_p -> parser(evs[i].data.fd);
       } else if (evs[i].events & EPOLLHUP) {    
           close(evs[i].data.fd);
       }
@@ -77,7 +85,7 @@ void* Server::reader(void* arg) {
 }
 
 void Server::parser(ssize_t fd) {
-  fmt::println("parse msg...");
+  // fmt::println("parse msg...");      // @todo: repeated log?
 
   char buffer[this -> BUFFER_SIZE] = {0}; // buffer for reading from socket buf @todo: cant be compiled by clang 14
   std::string msg_buf; // buffer for structuring data
@@ -103,7 +111,7 @@ void Server::parser(ssize_t fd) {
       msg_buf.append(buffer);
       hdr_end = std::regex_search(buffer, res, hdr_div);
     } else if (!hdr_end && len_read <= 0) {    // no responses fo http messages with invalid format
-      fmt::println("kill connection...");
+      // fmt::println("kill connection...");
       close(fd);
       return;
     }
@@ -196,4 +204,8 @@ void Server::parser(ssize_t fd) {
 }
 
 
-
+void* Server::parserAdaptor(void* arg) {
+  struct ParserAdaptorStruct* p = (ParserAdaptorStruct*)arg; 
+  p->serv_p->parser(p->fd);
+  return nullptr;
+}
