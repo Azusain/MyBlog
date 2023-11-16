@@ -1,21 +1,5 @@
-# MyBlog
-Come and Visit mty website! http://azusaing.top
+### Azusaing's new blog is available~
 
-![MyBlog](./demo.png)
-
-![MyBlog](./demo_1.png)
-
-## Frontend
-- **React**, **tailwindcss**, **typescript**
-
-## Backend
-
-**developed with:** 
-- **gcc**, standard **UNIX** libraries and **C++11** features
-- 3rd-parities: **jsoncpp**, **fmt**
-
-## To Sum Up
-- It's really troublesome and sticky to develop backend web application with **C++**, since there are almost no web frameworks for it. But as the meaning of this demo is for better understanding the basic principle of net programming, this demo is a good reference for me.
-- This server uses the **Reactor** network IO model and utilizes the **epoll** APIs supported by **Linux** kernel from version **2.6**.  
-- Also, I've designed a simple **HTTP** message handling class and a logger whose color could be customized by its initializor.
-
+- As I am not really dissatisfied with the design of my last blog, I've decided to migrate my blog to a new framework: **hexo**, this platform has bunch of 'fine arts' so I wouldn't have to design one on my own, then be tortured by my poor artisitic talent.
+- I will continue my work for more features on this new website based on the previous backend, including but not limited to 'Comments', 'Resource Sharing' and a more aesthetically pleasing interface. 
+- new address -> https://azusaing.top
