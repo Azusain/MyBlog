@@ -68,7 +68,11 @@ tags:
     source ~/.bashrc
 ```
 
-3. 为了能让 **CMake** 工具链加入 **vcpkg**，可以在项目路径下加入 **CMakePresets.json** 文件，其中最关键的其实是 **CMKAE_TOOLCHAIN_FILE** 这个值
+
+
+3. 为了能让 **CMake** 工具链加入 **vcpkg**，需要设置  `CMKAE_TOOLCHAIN_FILE`  这个值，官网给出了三种方法
+
+- 在 CMakePresets.json 中进行设置
 
 ```cmake
     {
@@ -85,6 +89,20 @@ tags:
     }
 ```
 
+- 在 CMakeLists.txt 中进行设置，不过要写在 `project()` 这一行之前
+
+```cmake
+	set(CMAKE_TOOLCHAIN_FILE "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+```
+
+- 在使用cmake指令进行工程构建的时候加入 `-D` 选项
+
+```bash
+	cmake -DCMAKE_TOOLCHAIN_FILE="$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+```
+
+
+
 4. 在希望使用 **vcpkg** 的项目中使用如下指令初始化 **vcpkg** 管理
 
 ```bash
@@ -92,11 +110,15 @@ tags:
 ```
 
 
+
+
 5. 之后可以使用如下命令进行依赖的添加，比如我这里需要添加 **fmt** 库，回车之后会发现 **vcpkg.json** 中多了这一项依赖
 
 ```bash
     vcpkg add port fmt 
 ```
+
+
 
 6. 之后就可以使用 **cmake** 指令进行构建编译了，加上 `--preset` 选项设置配置文件为上述 **CMakePresets.json** 中的 **default** 配置
 
@@ -106,6 +128,8 @@ tags:
     cmake --build .
 ```
 
+
+
 7. 构建成功即可运行（实际上大概率遇到一堆小问题，这里就即兴发挥了 :happy:
 
 ```bash
@@ -114,6 +138,24 @@ tags:
 ```
 
 
+
+### 注
+
+- 实际上 **vcpkg** 安装包有两种模式：**classic** 和 **manifest** (上文使用的就是这种方式，也是官方推荐的 )
+
+	- **manifest:** 相当于每次安装库的位置都是项目 **build** 文件夹内
+
+
+	- **classic:** 相当于全局安装，库安装在在 `VCPKG_ROOT`的文件夹中；在设置了 **vcpkg** 工具链的项目中， 每次安装都会从这个全局目录中寻找缓存，大大加快安装速度；该模式安装使用另一条指令
+
+		```bash
+			vcpkg install <lib> 
+		```
+
+
+- 另外贴上 **vcpkg** 页面 https://learn.microsoft.com/en-us/vcpkg/
+
+​      
 
 
 
