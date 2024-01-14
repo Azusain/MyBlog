@@ -32,30 +32,9 @@
 
 #include "http_parser.h"
 
-// +------------------------- test --------------------------+
 
-// void* test_routine(void* arg) {
-//   int range = *static_cast<int*>(arg);
-//   int sum = 0;
-//   for(int i = 0; i < range; ++i) {
-//     sum += i;
-//   }
-//   std::cout << std::to_string(sum).c_str() << "\n";
-//   return nullptr;
-// }
-
-
-// @todo: needs exception handler
-// @todo: regex wrapper
 int main(int, char **) {
-  // load passgaes from localfile;
-  // bool succeed_load = Runtime::psg_loader.load();
-  
-
   Server s(8080);
   s.Start();
-
-
-
   return 0;
 }

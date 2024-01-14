@@ -59,12 +59,12 @@ bool HttpParser::ReadFromFileStream() {
 }
 
 bool HttpParser::ReadFromSocket() {
-  int len = recv(fd_, io_buffer_.data(), kBufferSize_, 0);
+  int len = recv(fd_, io_buffer_.data(), kBufferSize_, MSG_DONTWAIT);
   return len > 0;
 }
 
 bool HttpParser::ParseSocketStream() {
-    while (true) {
+  while (true) {
     if (state_ == State::ERR) {
       return false;
     } else if (state_ == State::DONE) {

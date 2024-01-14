@@ -86,7 +86,7 @@ namespace ThreadPoolCC {
   }
   
   // add works to work queue, return false if failed
-  bool ThreadPool::addWork(void* (*func_p)(void*), void* arg) {
+  bool ThreadPool::AddWork(void* (*func_p)(void*), void* arg) {
     if(!thpool_alive_) {
       return false;
     }
@@ -102,7 +102,7 @@ namespace ThreadPoolCC {
   }
 
   // stop thread pool
-  void ThreadPool::destroy() {
+  void ThreadPool::Destroy() {
     this->thpool_alive_ = false;
 
     uint32_t n_threads_to_cleanup = n_threads_alive_;
@@ -135,7 +135,7 @@ namespace ThreadPoolCC {
   }
 
   // wait till all threads are idle and the work queue is empty
-  void ThreadPool::wait(uint8_t n_max_poll_secs=1) {
+  void ThreadPool::Wait(uint8_t n_max_poll_secs=1) {
     uint8_t n_poll_secs = 1;
     pthread_mutex_lock(&mutex_thread_n_);
     while (n_threads_working_ || n_works_) {

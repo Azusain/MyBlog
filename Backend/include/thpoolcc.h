@@ -12,9 +12,9 @@
 namespace ThreadPoolCC {
 
 struct Work {
-    Work* next;
-    void* (*func_p)(void*);
-    void* arg;
+  Work* next;
+  void* (*func_p)(void*);
+  void* arg;
 };
 
 static void* th_routine(void* routine_arg);
@@ -40,11 +40,11 @@ public:
   
   ThreadPool(uint32_t n_threads);
 
-  bool addWork(void* (*func_p)(void*), void* arg);
+  bool AddWork(void* (*func_p)(void*), void* arg);
 
-  void destroy();
+  void Destroy();
 
-  void wait(uint8_t n_max_poll_secs);
+  void Wait(uint8_t n_max_poll_secs);
 
 };
 

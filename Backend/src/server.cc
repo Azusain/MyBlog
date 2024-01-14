@@ -1,4 +1,5 @@
 // unix
+#include <cstdint>
 #include <cstring>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -22,12 +23,21 @@
 #include "runtime.h"
 
 
-Server::Server(uint16_t port)
-  :kMaxConnections(10), kBufferSize(1024), kPORT(port) {
-    server_fd_ = socket(AF_INET, SOCK_STREAM, 0);
-    address_.sin_family = AF_INET;
-    address_.sin_addr.s_addr = INADDR_ANY;
-    address_.sin_port = htons(kPORT);        
+Server::Server(
+  uint16_t port, 
+  uint8_t n_max_conn, 
+  uint16_t buffer_size, 
+  uint8_t n_max_threads
+):
+  kMaxConnections(n_max_conn), 
+  kBufferSize(buffer_size), 
+  kPORT(port),
+  thpool_(n_max_threads)
+{
+  server_fd_ = socket(AF_INET, SOCK_STREAM, 0);
+  address_.sin_family = AF_INET;
+  address_.sin_addr.s_addr = INADDR_ANY;
+  address_.sin_port = htons(kPORT);        
 }
 
 void Server::Start() {
@@ -43,10 +53,11 @@ void Server::Start() {
   // init service thread
   pthread_t serv_th;
   pthread_create(&serv_th, nullptr, this->Reader, (void*)this);
-
+  
   while (true) {
     ssize_t new_socket = accept(server_fd_, (struct sockaddr*)&address_, (socklen_t*)&addrlen);
-    fmt::println("accept new connection");
+    
+    fmt::println("accept new connection on fd {}", new_socket);
     if(new_socket < 0){
       perror("err accepting socket\n");
       continue;
@@ -75,9 +86,7 @@ void* Server::Reader(void* arg) {
           evs[i].data.fd, 
           serv_p
         };
-        // new thread for each connection
-        pthread_t thd;
-        pthread_create(&thd, nullptr, Server::ParserAdaptor, (void*)&pas);
+        serv_p->thpool_.AddWork(Server::ParserAdaptor, (void*)&pas);
         // serv_p -> parser(evs[i].data.fd);
       } else if (evs[i].events & EPOLLHUP) {    
         close(evs[i].data.fd);
@@ -88,25 +97,21 @@ void* Server::Reader(void* arg) {
 }
 
 void Server::Parser(ssize_t fd) {
-  // fmt::println("parse msg...");      // @todo: repeated log?
-
   char buffer[kBufferSize]; 
   memset(buffer, '\0', kBufferSize);
   
   // timeout handler
-  // struct timeval timeout;
-  // timeout.tv_sec = 3;
-  // timeout.tv_usec = 0;
-  // socklen_t timeout_len = sizeof(timeout);
-  // setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, timeout_len);
+  struct timeval timeout;
+  timeout.tv_sec = 3;
+  timeout.tv_usec = 0;
+  socklen_t timeout_len = sizeof(timeout);
+  setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, timeout_len);
   CRequest::HttpParser parser(fd);
 
   parser.ParseSocketStream();
   auto& request = parser.request_;
   
-
   // Deal with request and response
-  // @todo: request could be cached in a temporary queue 
   CRequest::HttpResponse* hresp_p;
   // Service sv(*req_p);
   std::string addr_v4(CRequest::Utils::getConnAddr(fd));
