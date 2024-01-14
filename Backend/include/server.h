@@ -19,20 +19,21 @@ struct ParserAdaptorStruct {
 class Server{
 public:
   Server(uint16_t port);
+
   sockaddr_in    address_;
   int8_t         server_fd_;
   int32_t        epoll_fd_;
-  const uint8_t  MAX_CONNECTIONS; 
-  const uint16_t BUFFER_SIZE;
-  const uint16_t PORT;
+  const uint8_t  kMaxConnections; 
+  const uint16_t kBufferSize;
+  const uint16_t kPORT;
 
-  void start();
+  void Start();
 
-  static void* reader(void* arg);
+  static void* Reader(void* arg);
  
-  void parser(ssize_t fd);
+  void Parser(ssize_t fd);
 
-  static void* parserAdaptor(void* arg);
+  static void* ParserAdaptor(void* arg);
 };
 
 #endif

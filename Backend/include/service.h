@@ -10,7 +10,7 @@ public:
   
   Service(const CRequest::HttpRequest& hr);
   
-  bool route_match(CRequest::HttpResponse*& hresp_p, ssize_t& fd);  
+  // bool route_match(CRequest::HttpResponse*& hresp_p, ssize_t& fd);  
 
   bool route_match(const std::string&, std::string&&);
 
@@ -18,7 +18,7 @@ public:
   
   bool authenticate(std::string&, std::string&);
 
-  std::map<std::string, std::string> hdr_map;
+  std::map<std::string, std::string> hdr_map_;
 
 private:
   Service();
