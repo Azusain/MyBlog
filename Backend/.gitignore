@@ -1,4 +1,4 @@
 /build/
 /testdir/
 /blog-src/
-./cache/
+./.cache/
