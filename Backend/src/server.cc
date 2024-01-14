@@ -20,20 +20,20 @@
 
 Server::Server(uint16_t port)
   :MAX_CONNECTIONS(10), BUFFER_SIZE(1024), PORT(port) {
-    this -> server_fd = socket(AF_INET, SOCK_STREAM, 0);
-    this -> address.sin_family = AF_INET;
-    this -> address.sin_addr.s_addr = INADDR_ANY;
-    this -> address.sin_port = htons(this -> PORT);        
+    this -> server_fd_ = socket(AF_INET, SOCK_STREAM, 0);
+    this -> address_.sin_family = AF_INET;
+    this -> address_.sin_addr.s_addr = INADDR_ANY;
+    this -> address_.sin_port = htons(this -> PORT);        
 }
 
 void Server::start() {
   fmt::println("Server runs on {}", this -> PORT);
   
   // init acceptor
-  int addrlen = sizeof(this -> address);
-  bind(server_fd, (struct sockaddr *)&(this -> address), sizeof(this -> address));
-  listen(server_fd, this -> MAX_CONNECTIONS);
-  this -> epoll_fd = epoll_create(1024);
+  int addrlen = sizeof(this -> address_);
+  bind(server_fd_, (struct sockaddr *)&(this -> address_), sizeof(this -> address_));
+  listen(server_fd_, this -> MAX_CONNECTIONS);
+  this -> epoll_fd_ = epoll_create(1024);
 
   // init service thread
   // @todo : need threadpool implementations here~
@@ -42,7 +42,7 @@ void Server::start() {
 
   while (true) {
     
-    ssize_t new_socket = accept(server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen);
+    ssize_t new_socket = accept(server_fd_, (struct sockaddr*)&address_, (socklen_t*)&addrlen);
     fmt::println("accept new connection");
     if(new_socket < 0){
       perror("err accepting socket\n");
@@ -52,7 +52,7 @@ void Server::start() {
     epoll_event ev;
     ev.events = EPOLLIN;
     ev.data.fd = new_socket;
-    epoll_ctl(this -> epoll_fd, EPOLL_CTL_ADD, new_socket, &ev);
+    epoll_ctl(this -> epoll_fd_, EPOLL_CTL_ADD, new_socket, &ev);
   }
   // @todo: remember rsrc recycling 
   // pthread_join(serv_th, NULL);
@@ -64,7 +64,7 @@ void* Server::reader(void* arg) {
   epoll_event evs[EVENT_BUF_SZ];
   
   while (1) {
-    int fd_n = epoll_wait(serv_p -> epoll_fd, evs, EVENT_BUF_SZ, -1);
+    int fd_n = epoll_wait(serv_p -> epoll_fd_, evs, EVENT_BUF_SZ, -1);
     for(size_t i = 0; i < fd_n; ++i) {
       if (evs[i].events & EPOLLIN) {
         // parameters
@@ -169,7 +169,7 @@ void Server::parser(ssize_t fd) {
   Service sv(*req_p);
   std::string addr_v4(CRequest::Utils::getConnAddr(fd));
 
-  if(sv.method == "POST") { // GET routers
+  if(sv.method_ == "POST") { // GET routers
     if(sv.route_match(hresp_p, fd)) {     
       std::string resp_msg = hresp_p -> to_string();
       send(fd, resp_msg.c_str(), resp_msg.length(), 0);
@@ -182,7 +182,7 @@ void Server::parser(ssize_t fd) {
       std::string resp_msg = hresp_p -> to_string();
       send(fd, resp_msg.c_str(), resp_msg.length(), 0);
     }
-  } else if(sv.method == "OPTIONS") { // CORS
+  } else if(sv.method_ == "OPTIONS") { // CORS
     hresp_p = new CRequest::HTTP_Response(200, {
       CRequest::Header_Generator::set_content_len(0),
       CRequest::Header_Generator::set_allow_origin("*"),
@@ -191,7 +191,7 @@ void Server::parser(ssize_t fd) {
     });
     Runtime::logger.log(
       {addr_v4, sv.method, "200", "/"}, Runtime::clr_200);
-  } else if(sv.method == "GET") {
+  } else if(sv.method_ == "GET") {
     hresp_p = new CRequest::HTTP_Response(404, {});
     Runtime::logger.log(
       {addr_v4, sv.method, "404", "/invalid"}, Runtime::clr_404);

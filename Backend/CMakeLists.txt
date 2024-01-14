@@ -1,32 +1,22 @@
-cmake_minimum_required(VERSION 3.0.0)
-project(Backend VERSION 0.1.0 LANGUAGES C CXX)
-set(CMAKE_CXX_STANDARD 14) # required by GoogleTest
-
-include_directories(
-    /usr/include/
-    ./include/utils
-    ./include/
-)
-
-link_directories(
-    /usr/lib/
-)
+cmake_minimum_required(VERSION 3.25)
+project(Template VERSION 0.0.1)
 
 
-add_executable(Backend 
-  main.cc 
-  Logger.cc 
-  Server.cc 
-  CRequest.cc 
-  Utils.cc 
-  Service.cc
-  PassageLoader.cc
-  Runtime.cc
-)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
-# 3rd-parties lib
-target_link_libraries(Backend
-    fmt
-    jsoncpp
-    # google_test
+
+find_package(fmt CONFIG REQUIRED)
+
+file(GLOB SOURCES "src/*.cc" "src/*.cpp")
+file(GLOB INCLUDE_DIR "include")
+
+add_executable(Main ${SOURCES})
+
+target_include_directories(Main PRIVATE ${INCLUDE_DIR})
+
+target_include_directories(Main PRIVATE "/usr/include/jsoncpp" )
+
+target_link_libraries(Main
+  fmt::fmt
+  jsoncpp
 )

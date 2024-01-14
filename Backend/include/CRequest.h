@@ -1,108 +1,104 @@
 #ifndef  __REQUEST_H
 #define  __REQUEST_H
+
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 #include <string>
 
+#include <regex>
+
+#ifdef __linux__
+  #define INT16 uint16_t
+  #include <fmt/core.h>
+  #define FORMAT fmt::format
+#else
+  #include <windows.h>
+  #include <format>
+  #define FORMAT std::format
+#endif
 
 namespace CRequest {
-
-extern std::unordered_map<uint16_t, std::string> STATUS_CODES;   // why it cant be const?
-extern const std::unordered_set<std::string> HTTP_METHODS;
-extern const std::string  CONNECTION_CLOSE;
-extern const std::string  CONNECTION_KEEP_ALIVE;
+  extern std::unordered_map<INT16, std::string> kStatusCode;   // why it cant be const?
+  extern const std::unordered_set<std::string> kHttpMethods;
+  extern const std::string kConnectionClose;
+  extern const std::string kConnectionKeepAlive;
 // MIME Type down below:
-extern const std::string  TYPE_APP_JSON;
-extern const std::string  TYPE_APP_URLENCODED;
-extern const std::string  TYPE_APP_XML;
-extern const std::string  TYPE_APP_OCTET;
-extern const std::string  TYPE_TEXT_HTML;
-extern const std::string  TYPE_TEXT_PLAIN;
-extern const std::string  TYPE_IMG_PNG;
-extern const std::string  TYPE_IMG_JPEG;
+  extern const std::string kTypeAppJson;
+  extern const std::string kTypeAppUrlencoded;
+  extern const std::string kTypeAppXml;
+  extern const std::string kTypeAppOctet;
+  extern const std::string kTypeTextHtml;
+  extern const std::string kTypeTextPlain;
+  extern const std::string kTypeImgPng;
+  extern const std::string kTypeImgJpeg;
 // HTTP Version, as now it only supports HTTP 1.1
-extern const std::string  HTTP_VERSION_01;
-extern const std::string  HTTP_VERSION_011;
-extern const std::string  HTTP_VERSION_02;
-extern const std::string  HTTP_VERSION_03;
+  extern const std::string kHttpVersion01;
+  extern const std::string kHttpVersion011;
+  extern const std::string kHttpVersion02;
+  extern const std::string kHttpVersion03;
+
+  namespace Header_Generator {
+    std::string set_cookie(std::string, std::string);
+
+    std::string set_connection(bool);
+
+    std::string set_content_type(std::string);
+
+    std::string set_content_len(size_t len);
+
+    std::string set_token(std::string token);
+
+    std::string set_allow_origin(std::string origin);
+
+    std::string set_allow_hdrs(std::vector<std::string> hdrs);
+
+    std::string set_allow_content_type(std::string origin);
+
+    std::string set_allow_methods(std::vector<std::string> methods);
+
+    std::string set_allow_credentials(std::string origin);
+
+    // default: User-Agent, Host
+  } // namespace Header_Generator
+
+  class HttpMessage {
+    public:
+    HttpMessage();
+
+    // virtual void set_fst_hdr_ln() = 0; what happened to this line of codes?
+
+    void set_body(std::string body_str);
+
+    std::unordered_map<std::string, std::string> headers_;
+    std::string body_;
+    size_t body_size_;
+
+  };
+
+  class HttpResponse : public HttpMessage {
+    public:
+    HttpResponse(INT16 stat_code, const std::vector<std::string> &hdr_lns);
+
+    INT16 status_code_;
+
+    private:
+    std::string version_;
+  };
 
 
-namespace Header_Generator{
-  std::string set_cookie(std::string, std::string);
+  class HttpRequest : public HttpMessage {
+    public:
+    HttpRequest();
 
-  std::string set_connection(bool);
+    bool set_method(const std::string &method);
 
-  std::string set_content_type(std::string);
+    bool set_version(const std::string &version);
 
-  std::string set_content_len(size_t len);
-
-  std::string set_token(std::string token);
-
-  std::string set_allow_origin(std::string origin);
-
-  std::string set_allow_hdrs(std::vector<std::string> hdrs);
-  
-  std::string set_allow_content_type(std::string origin);
-
-  std::string set_allow_methods(std::vector<std::string> methods);
-
-  std::string set_allow_credentials(std::string origin);
-
-  // default: User-Agent, Host
-} // namespace Header_Generator
-
-
-
-class HTTP_Message{
-public:
-  HTTP_Message();
-  
-  HTTP_Message(const std::vector<std::string>& hdr_lns);
-  
-  // virtual void set_fst_hdr_ln() = 0; what happened to this line of codes?
-
-  void add_hdr_ln(std::string hdr_ln);
-
-  void set_body(std::string body_str);
-
-protected:
-  std::vector<std::string> header_lines;
-  std::string              body;
-};
-
-
-class HTTP_Response : public HTTP_Message {
-public:
-
-  HTTP_Response(uint16_t stat_code, const std::vector<std::string>& hdr_lns);
-  
-  void set_fst_hdr_ln(uint16_t stat_code, std::string ver);
-
-  std::string  to_string();
-
-  uint16_t     status_code;
-private:
-  std::string  version;
-};
-
-
-class HTTP_Request : public HTTP_Message {
-public:
-
-  HTTP_Request();
-
-  HTTP_Request(std::string method, std::string url, 
-    const std::vector<std::string>& hdr_lns);
-  
-  void set_fst_hdr_ln(std::string method, std::string url, std::string ver);
-
-  std::string  to_string();
-
-  std::string  method;
-  std::string  url;
-  std::string  version;
-};
+    std::string method_;
+    std::string url_;
+    std::string version_;
+  };
 
 }; // namespace CRequest
 

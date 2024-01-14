@@ -19,9 +19,9 @@ struct ParserAdaptorStruct {
 class Server{
 public:
   Server(uint16_t port);
-  sockaddr_in    address;
-  int8_t         server_fd;
-  int32_t        epoll_fd;
+  sockaddr_in    address_;
+  int8_t         server_fd_;
+  int32_t        epoll_fd_;
   const uint8_t  MAX_CONNECTIONS; 
   const uint16_t BUFFER_SIZE;
   const uint16_t PORT;

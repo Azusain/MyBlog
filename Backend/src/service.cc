@@ -31,7 +31,7 @@ bool Service::route_match(CRequest::HTTP_Response*& hresp_p, ssize_t& fd) {
   // });
 
   // route match
-  if(this -> url == "/login") {              // /login
+  if(this -> url_ == "/login") {              // /login
     std::string usr = this -> hdr_map["usr"];
     std::string passwd = this -> hdr_map["passwd"];
     
@@ -51,20 +51,20 @@ bool Service::route_match(CRequest::HTTP_Response*& hresp_p, ssize_t& fd) {
         {addr_v4, this -> method, "404", "/login"}, Runtime::clr_404);
     }
     
-  } else if(this -> route_match(this->url, "/columns")) {   // /columns
+  } else if(this -> route_match(this->url_, "/columns")) {   // /columns
     Json::Value col_json = Runtime::psg_loader.toJson();
     Json::Value cols = col_json["columns"];
     Json::Value ret_json;
     std::string real_route; 
     
 
-    if(this -> url == "/columns") {     // get all
+    if(this -> url_ == "/columns") {     // get all
       real_route = "*";
       for(int i = 0; i < cols.size(); ++i) {
         ret_json["columns"].append(cols[i]["title"]);
       }
     }else { // get msg by endpoint
-      real_route = this -> url.replace(this->url.find("/columns/"), 9, ""); //@todo: dangerous
+      real_route = this -> url_.replace(this->url_.find("/columns/"), 9, ""); //@todo: dangerous
       bool found = false;
       for(int i = 0; i < cols.size(); ++i) {
         if(cols[i]["title"].asString() == real_route) {
