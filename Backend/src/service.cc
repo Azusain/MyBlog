@@ -4,17 +4,17 @@
 
 #include <fmt/core.h>
 
-#include "Service.h"
-#include "Runtime.h"
+#include "service.h"
+#include "runtime.h"
 
 Service::Service()
-  :CRequest::HTTP_Request() {}
+  :CRequest::HttpRequest() {}
 
-Service::Service(const CRequest::HTTP_Request& hreq)
-  :CRequest::HTTP_Request(hreq) {
+Service::Service(const CRequest::HttpRequest& hreq)
+  :CRequest::HttpRequest(hreq) {
     std::regex r("([a-zA-Z-]{0,}):[ ]{0,}(.{0,})");
     std::smatch m;
-    for(auto& ln: this -> header_lines) {
+    for(auto& ln: this -> headers_) {
       std::regex_search(ln, m, r);
       this -> hdr_map[m.str(1)] =  m.str(2);
     }

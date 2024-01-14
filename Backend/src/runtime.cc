@@ -1,6 +1,6 @@
 #include <cstring>
-#include "Logger.h"
-#include "PassageLoader.h"
+#include "logger.h"
+#include "passage_loader.h"
 
 namespace Runtime{
 // init logger

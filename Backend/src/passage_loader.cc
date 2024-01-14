@@ -6,9 +6,9 @@
 #include <map>
 #include <memory>
 
-#include "Utils.h"
-#include "PassageLoader.h"
-#include "Runtime.h"
+#include "utils.h"
+#include "passage_loader.h"
+#include "runtime.h"
 #include "fmt/core.h"
 
 PassageLoader::PassageLoader(const std::string&& base_path)

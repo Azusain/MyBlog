@@ -5,12 +5,12 @@
 #include <map>
 
 
-class Service : public CRequest::HTTP_Request {
+class Service : public CRequest::HttpRequest {
 public:
   
-  Service(const CRequest::HTTP_Request& hr);
+  Service(const CRequest::HttpRequest& hr);
   
-  bool route_match(CRequest::HTTP_Response*& hresp_p, ssize_t& fd);  
+  bool route_match(CRequest::HttpResponse*& hresp_p, ssize_t& fd);  
 
   bool route_match(const std::string&, std::string&&);
 

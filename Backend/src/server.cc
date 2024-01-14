@@ -10,12 +10,12 @@
 // std lib <format> in C++ 20
 #include <fmt/core.h>
 // proj files
-#include "Server.h"
+#include "server.h"
 #include "CRequest.h"
-#include "Utils.h"
-#include "Logger.h"
-#include "Service.h"
-#include "Runtime.h"
+#include "utils.h"
+#include "logger.h"
+#include "service.h"
+#include "runtime.h"
 
 
 Server::Server(uint16_t port)

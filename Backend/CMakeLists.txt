@@ -7,7 +7,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 find_package(fmt CONFIG REQUIRED)
 
-file(GLOB SOURCES "src/*.cc" "src/*.cpp")
+# file(GLOB SOURCES "src/*.cc" "src/*.cpp")
+file(GLOB SOURCES "src/main.cc" "src/thpoolcc.cc")
 file(GLOB INCLUDE_DIR "include")
 
 add_executable(Main ${SOURCES})
@@ -17,6 +18,7 @@ target_include_directories(Main PRIVATE ${INCLUDE_DIR})
 target_include_directories(Main PRIVATE "/usr/include/jsoncpp" )
 
 target_link_libraries(Main
-  fmt::fmt
-  jsoncpp
+  # fmt::fmt
+  # jsoncpp
+  pthread
 )

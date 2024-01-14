@@ -14,7 +14,7 @@
 // fmt-io lib
 #include <fmt/core.h>
 
-#include  "Logger.h"
+#include  "logger.h"
 namespace Log{
 
 // text color

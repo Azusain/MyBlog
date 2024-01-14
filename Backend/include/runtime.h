@@ -1,7 +1,7 @@
 #ifndef __RUNTIME_H
 #define __RUNTIME_H
-#include "Logger.h"
-#include "PassageLoader.h"
+#include "logger.h"
+#include "passage_loader.h"
 
 namespace Runtime{
 // init logger

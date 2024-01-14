@@ -11,79 +11,34 @@
 
 namespace ThreadPoolCC {
 
-// +------------------------------- Work Queue -------------------------------+
 struct Work {
-  Work* next;
-  void* (*func_p)(void*);
-  void* arg;
-  bool  urge;
+    Work* next;
+    void* (*func_p)(void*);
+    void* arg;
 };
 
-
-class WorkQueue {
-public:
-  volatile size_t n_works;
-  volatile size_t n_msg;
-  Work*           front;
-  Work*           rear;
-
-  WorkQueue();
-
-  void push_work_rear(void* (*func_p)(void*), void* arg);
-
-  void push_msg_front(void* (*func_p)(void*), void* arg);
-
-  Work* pop_front();
-
-  void destroy();
-};
-
-
-// +------------------------------- Thread Pool -------------------------------+
-class ThreadPool;
-
-struct WorkerInfo {
-  ThreadPool* thpool;
-  size_t      index;
-};
-
-struct ManagerInfo {
-  ThreadPool* thpool;
-  uint32_t    n_init_threads;
-  time_t      secs_tick;    // seconds between each resource-check
-};
-
-
-static void* worker_routine(void* routine_arg);
-
-static void* manager_routine(void* arg);
+static void* th_routine(void* routine_arg);
 
 class ThreadPool {
 public:
   // thpool status
-  const    uint8_t  N_STEPS;        // the min unit for resizing the thpool
-  const    uint32_t N_MAX_THREADS;
-  volatile uint32_t n_thd_exist;
-  volatile uint32_t n_thd_working;
-  int8_t            n_thd_inc;      // increment of threads; could be negetive
-  bool              thpool_alive;
-  bool              thpool_init;
-
+  volatile uint32_t n_works_;
+  volatile uint32_t n_threads_;
+  volatile uint32_t n_threads_alive_;
+  volatile uint32_t n_threads_working_;
+  bool              thpool_alive_;
   // internal data structure
-  WorkQueue         work_queue;
+  Work*             work_queue_front_;
+  Work*             work_queue_rear_;
+  // threads and sychronization
+  pthread_mutex_t   mutex_work_buf_;
+  pthread_mutex_t   mutex_thread_n_;
+  pthread_cond_t    cond_has_works_;
+  pthread_cond_t    cond_idle_;
 
-  // sychronization among workers
-  pthread_mutex_t   access_work_queue;
-  pthread_mutex_t   access_thd_num;   // mutex for thpool status
-  pthread_cond_t    is_init;
-  pthread_cond_t    has_works; 
-  pthread_cond_t    all_idle;        // requirement for ThreadPool::wait() to return   
-
-  // sychronization between workers and manager
-  pthread_t*        worker_threads;
-  pthread_t*        manager_thread;  // core thread for dynamic resizing the threadpool
+  pthread_t*        pthreads_;
   
-  ThreadPool(uint32_t n_init_threads, uint32_t N_MAX_THREADS, uint32_t N_STEPS, time_t secs_tick);
+  ThreadPool(uint32_t n_threads);
 
   bool addWork(void* (*func_p)(void*), void* arg);
 
@@ -94,5 +49,6 @@ public:
 };
 
 }; // namespace ThreadPoolCC
+
 
 #endif
