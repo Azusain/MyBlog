@@ -4,7 +4,7 @@ This repository contains Azusayn's personal blog built with Hexo.
 
 ## GitHub Pages Deployment
 
-The blog is automatically deployed to GitHub Pages when changes are pushed to the `blog_0.2.0` branch.
+The blog is automatically deployed to GitHub Pages when changes are pushed to the `main` branch.
 
 ### Access
 
@@ -20,7 +20,7 @@ The blog is automatically deployed to GitHub Pages when changes are pushed to th
 3. Scroll down to **Pages** section (left sidebar)
 4. Under "Source", select **GitHub Actions**
 5. Save the settings
-6. Push changes to `blog_0.2.0` branch to trigger deployment
+6. Push changes to `main` branch to trigger deployment
 
 **Why manual setup?** GitHub Actions needs additional permissions to automatically create Pages sites. Manual setup avoids permission issues.
 
