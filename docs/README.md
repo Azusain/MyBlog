@@ -33,9 +33,63 @@ npm run server  # Start development server
 npm run build   # Generate static files
 ```
 
+### Domain Switching
+
+This blog supports both GitHub Pages and custom domains:
+
+**Current setup**: GitHub Pages (`https://azusain.github.io/MyBlog`)
+
+#### Switch to Custom Domain (azusayn.site)
+
+```powershell
+# Run from repository root
+.\scripts\switch-domain.ps1 -Domain "custom"
+```
+
+#### Switch back to GitHub Pages
+
+```powershell
+# Run from repository root
+.\scripts\switch-domain.ps1 -Domain "github"
+```
+
+#### Custom Domain Setup Steps
+
+1. **DNS Configuration**: Point your domain to GitHub Pages
+   ```
+   # A records
+   185.199.108.153
+   185.199.109.153
+   185.199.110.153
+   185.199.111.153
+   
+   # Or CNAME (for subdomain)
+   azusain.github.io
+   ```
+
+2. **Run domain switch script**:
+   ```powershell
+   .\scripts\switch-domain.ps1 -Domain "custom"
+   ```
+
+3. **Rebuild and commit**:
+   ```bash
+   cd blog_0.2.0
+   npm run build
+   git add .
+   git commit -m "Switch to custom domain"
+   git push
+   ```
+
+4. **Enable in GitHub Pages settings**:
+   - Go to repository Settings → Pages
+   - Enter custom domain: `azusayn.site`
+   - Enable "Enforce HTTPS"
+
 ### Project Structure
 
 - `blog_0.2.0/` - Main Hexo blog directory
 - `source/_posts/` - Blog posts organized by categories
 - `themes/next/` - Next.js theme
 - `.github/workflows/deploy.yml` - GitHub Actions deployment workflow
+- `scripts/switch-domain.ps1` - Domain switching utility
