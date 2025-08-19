@@ -93,10 +93,16 @@ npm run domain:switch
    - Enter custom domain: `azusayn.site`
    - Enable "Enforce HTTPS"
 
+## Documentation
+
+- **[Development Guide](development-guide.md)** - Complete development workflow, commands, and troubleshooting
+- **[Custom Domain Setup](custom-domain-setup.md)** - DNS configuration and GitHub Pages custom domain setup
+
 ### Project Structure
 
 - `blog_0.2.0/` - Main Hexo blog directory
 - `source/_posts/` - Blog posts organized by categories
-- `themes/next/` - Next.js theme
+- `themes/next/` - Next.js theme (Git submodule)
 - `.github/workflows/deploy.yml` - GitHub Actions deployment workflow
-- `scripts/switch-domain.ps1` - Domain switching utility
+- `docs/` - Documentation and setup guides
+- `scripts/` - Utility scripts
