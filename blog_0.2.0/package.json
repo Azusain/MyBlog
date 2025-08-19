@@ -6,7 +6,12 @@
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "domain:github": "node scripts/switch-domain.js github && npm run build",
+    "domain:custom": "node scripts/switch-domain.js custom && npm run build",
+    "domain:switch": "node scripts/switch-domain.js",
+    "dev": "npm run server",
+    "start": "npm run server"
   },
   "hexo": {
     "version": "7.3.0"

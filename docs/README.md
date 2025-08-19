@@ -29,8 +29,9 @@ The blog is automatically deployed to GitHub Pages when changes are pushed to th
 ```bash
 cd blog_0.2.0
 npm install
-npm run server  # Start development server
+npm run dev     # Start development server
 npm run build   # Generate static files
+npm run clean   # Clean generated files
 ```
 
 ### Domain Switching
@@ -41,16 +42,23 @@ This blog supports both GitHub Pages and custom domains:
 
 #### Switch to Custom Domain (azusayn.site)
 
-```powershell
-# Run from repository root
-.\scripts\switch-domain.ps1 -Domain "custom"
+```bash
+cd blog_0.2.0
+npm run domain:custom
 ```
 
 #### Switch back to GitHub Pages
 
-```powershell
-# Run from repository root
-.\scripts\switch-domain.ps1 -Domain "github"
+```bash
+cd blog_0.2.0
+npm run domain:github
+```
+
+#### Show available domains
+
+```bash
+cd blog_0.2.0
+npm run domain:switch
 ```
 
 #### Custom Domain Setup Steps
@@ -67,15 +75,14 @@ This blog supports both GitHub Pages and custom domains:
    azusain.github.io
    ```
 
-2. **Run domain switch script**:
-   ```powershell
-   .\scripts\switch-domain.ps1 -Domain "custom"
-   ```
-
-3. **Rebuild and commit**:
+2. **Switch domain and rebuild**:
    ```bash
    cd blog_0.2.0
-   npm run build
+   npm run domain:custom
+   ```
+
+3. **Commit and push**:
+   ```bash
    git add .
    git commit -m "Switch to custom domain"
    git push
