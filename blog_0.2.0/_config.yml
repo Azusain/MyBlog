@@ -14,11 +14,11 @@ timezone: ""
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 ## For custom domains, change to your domain and set root to '/'
-url: https://azusain.github.io/MyBlog
-root: /MyBlog/
+# url: https://azusain.github.io/MyBlog
+# root: /MyBlog/
 ## For custom domain (uncomment when using custom domain):
-# url: https://azusayn.site
-# root: /
+url: https://azusayn.site
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
