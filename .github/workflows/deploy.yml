@@ -46,6 +46,15 @@ jobs:
         working-directory: ./blog_0.2.0
         run: npm run build
         
+      - name: Debug - List files after build
+        run: |
+          echo "Files in blog_0.2.0 after build:"
+          ls -la blog_0.2.0/
+          echo "Files in blog_0.2.0/public:"
+          ls -la blog_0.2.0/public/ || echo "public directory not found"
+          echo "Check index.html:"
+          ls -la blog_0.2.0/public/index.html || echo "index.html not found"
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
