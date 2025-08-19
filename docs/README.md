@@ -8,8 +8,8 @@ The blog is automatically deployed to GitHub Pages when changes are pushed to th
 
 ### Access
 
-- **Live Site**: https://azusain.github.io/blog
-- **Base Path**: `/blog`
+- **Live Site**: https://azusain.github.io/MyBlog
+- **Base Path**: `/MyBlog`
 
 ### Manual Setup Required
 
