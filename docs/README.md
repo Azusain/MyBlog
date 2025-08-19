@@ -11,11 +11,18 @@ The blog is automatically deployed to GitHub Pages when changes are pushed to th
 - **Live Site**: https://azusain.github.io/blog
 - **Base Path**: `/blog`
 
-### Setup
+### Manual Setup Required
 
-1. Enable GitHub Pages in repository settings
-2. Set source to "GitHub Actions"
-3. Push changes to `blog_0.2.0` branch to trigger deployment
+**IMPORTANT**: You must manually enable GitHub Pages first:
+
+1. Go to your repository: https://github.com/Azusain/MyBlog
+2. Click **Settings** tab
+3. Scroll down to **Pages** section (left sidebar)
+4. Under "Source", select **GitHub Actions**
+5. Save the settings
+6. Push changes to `blog_0.2.0` branch to trigger deployment
+
+**Why manual setup?** GitHub Actions needs additional permissions to automatically create Pages sites. Manual setup avoids permission issues.
 
 ### Local Development
 
